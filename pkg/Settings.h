@@ -9,10 +9,12 @@ namespace pkg {
     public:
         const std::string_view ShCommand;
         const std::string_view DefaultAction;
+        const std::string_view RequiredPackageName;
         const std::string_view MetadataUrl;
         const std::string_view StoragePath;
         const std::string_view SourcesPath;
         const std::string_view BuildPath;
+        const std::string_view HostFileName;
         const std::string_view PackagesFileName;
         const std::string_view BinariesFileName;
         const std::string_view SourcesFileName;

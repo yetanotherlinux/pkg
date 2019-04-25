@@ -35,10 +35,6 @@ namespace pkg::storage {
         return std::nullopt;
     }
 
-    std::vector<Package> Storage::GetPackages() const {
-        return _packages;
-    }
-
     void Storage::Push(const Package &package) {
         UpdatePackage(
                 package.Name, [&package](
@@ -69,16 +65,6 @@ namespace pkg::storage {
                 });
     }
 
-    Json Storage::GetJson(const FileSystem &fileSystem, const std::string &path) {
-        Json json{};
-        if (fileSystem.IsFileExists(path)) {
-            fileSystem.Read(path, [&json](std::istream &stream) {
-                json = JsonReader(&stream).Read();
-            });
-        }
-        return json;
-    }
-
     void Storage::UpdatePackage(
             const std::string &packageName,
             const std::function<void(
@@ -94,5 +80,15 @@ namespace pkg::storage {
         _fileSystem.Write(_filePath, [&json](std::ostream &stream) {
             JsonWriter(&stream).Write(json);
         });
+    }
+
+    Json Storage::GetJson(const FileSystem &fileSystem, const std::string &path) {
+        Json json{};
+        if (fileSystem.IsFileExists(path)) {
+            fileSystem.Read(path, [&json](std::istream &stream) {
+                json = JsonReader(&stream).Read();
+            });
+        }
+        return json;
     }
 }

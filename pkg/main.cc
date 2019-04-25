@@ -1,20 +1,17 @@
 #include "pkg/Args.h"
 #include "pkg/PackageGraph.h"
 #include "pkg/actions/ActionFactory.h"
+#include "pkg/storage/HostStorage.h"
 #include "pkg/storage/MetadataStorage.h"
 
 using namespace pkg;
 using pkg::actions::ActionFactory;
+using pkg::storage::HostStorage;
 using pkg::storage::MetadataStorage;
 
-std::vector<std::string> GetPackages(const Args &args, const std::shared_ptr<PackageStorage> &packageStorage) {
+std::vector<std::string> GetPackages(const Args &args, const std::shared_ptr<HostStorage> &hostStorage) {
     std::vector<std::string> packageNames{args.GetPackages()};
-    if (packageNames.empty()) {
-        for (const Package &package : packageStorage->GetPackages()) {
-            packageNames.push_back(package.Name);
-        }
-    }
-    return packageNames;
+    return packageNames.empty() ? hostStorage->GetPackages() : packageNames;
 }
 
 int main(int argc, char **argv) {
@@ -29,6 +26,7 @@ int main(int argc, char **argv) {
     std::shared_ptr<SourceStorage> sourceStorage{std::make_shared<SourceStorage>(settings, fileSystem)};
     std::shared_ptr<BinaryStorage> binaryStorage{std::make_shared<BinaryStorage>(settings, fileSystem)};
     std::shared_ptr<PackageStorage> packageStorage{std::make_shared<PackageStorage>(settings, fileSystem)};
+    std::shared_ptr<HostStorage> hostStorage{std::make_shared<HostStorage>(settings, fileSystem)};
 
     const ActionFactory actionFactory{
             sourceStorage, binaryStorage, packageStorage, fileSystem, webClient, shell, settings, log
@@ -43,7 +41,7 @@ int main(int argc, char **argv) {
     }
 
 
-    const std::vector<std::string> packageNames{GetPackages(args, packageStorage)};
+    const std::vector<std::string> packageNames{GetPackages(args, hostStorage)};
     if (packageNames.empty()) {
         log.Error() << "Packages are not specified" << std::endl;
         return EXIT_FAILURE;

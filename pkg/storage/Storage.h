@@ -25,8 +25,6 @@ namespace pkg::storage {
 
         std::optional<Package> FindPackage(const std::string &packageName) const;
 
-        std::vector<Package> GetPackages() const;
-
         void Push(const Package &package);
 
         void Pop(const Package &package);
