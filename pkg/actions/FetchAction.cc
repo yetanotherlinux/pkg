@@ -43,7 +43,7 @@ namespace pkg::actions {
         _fileSystem.Remove(destinationPath);
         _fileSystem.Rename(contentPath, destinationPath);
         _fileSystem.Remove(extractPath);
-        _shell.Run("chattr -R +iA " + destinationPath);
+        _shell.Run("find " + destinationPath + " ! -type l -exec chattr +iA {} +");
 
         PushToStorage(package);
     }
