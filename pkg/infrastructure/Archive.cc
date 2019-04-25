@@ -7,8 +7,9 @@
 
 namespace pkg::infrastructure {
 
-    Archive::Archive(const std::string &path) :
-            _path(path) {
+    Archive::Archive(std::string path, const FileSystem &fileSystem) :
+            _path(std::move(path)),
+            _fileSystem(fileSystem) {
     }
 
     std::string Archive::Extract(const std::string &path) const {
@@ -37,11 +38,11 @@ namespace pkg::infrastructure {
         while ((readNextHeader = archive_read_next_header(in.get(), &entry)) == ARCHIVE_OK) {
             std::string archiveEntryPath{archive_entry_pathname(entry)};
             if (rootPath.empty()) {
-                rootPath = path + "/";
                 std::size_t pos{archiveEntryPath.find('/')};
-                rootPath += pos == std::string::npos ? archiveEntryPath : archiveEntryPath.substr(0, pos);
+                rootPath = _fileSystem.CreatePath(
+                        path, pos == std::string::npos ? archiveEntryPath : archiveEntryPath.substr(0, pos));
             }
-            std::string entryPath{path + "/" + archiveEntryPath};
+            std::string entryPath{_fileSystem.CreatePath(path, archiveEntryPath)};
             archive_entry_set_pathname(entry, entryPath.c_str());
 
             if (archive_write_header(out.get(), entry) == ARCHIVE_OK) {

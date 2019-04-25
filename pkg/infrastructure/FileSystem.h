@@ -7,6 +7,8 @@ namespace pkg::infrastructure {
     class FileSystem {
 
     public:
+        std::string GetTempDirectoryPath() const;
+
         std::string CreatePath(const std::string &path, const std::string &relativePath) const;
 
         bool IsFileExists(const std::string &path) const;

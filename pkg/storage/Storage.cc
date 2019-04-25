@@ -12,7 +12,7 @@ using json::JsonWriter;
 namespace pkg::storage {
 
     Storage::Storage(const Settings &settings, const std::string_view &fileName, const FileSystem &fileSystem) :
-            _filePath(std::string(settings.StoragePath) + "/" + std::string(fileName)),
+            _filePath(fileSystem.CreatePath(std::string(settings.StoragePath), std::string(fileName))),
             _fileSystem(fileSystem),
             _packages() {
         fileSystem.CreateDirectory(std::string(settings.StoragePath));

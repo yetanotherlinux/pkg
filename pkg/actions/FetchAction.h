@@ -20,7 +20,6 @@ namespace pkg::actions {
         const WebClient _webClient;
         const Shell _shell;
         const Log _log;
-        const std::string _downloadPath;
         const std::string _sourcesPath;
 
     public:

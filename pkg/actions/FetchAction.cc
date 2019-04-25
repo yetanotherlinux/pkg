@@ -18,9 +18,7 @@ namespace pkg::actions {
             _webClient(webClient),
             _shell(shell),
             _log(log),
-            _downloadPath(settings.TmpPath),
             _sourcesPath(settings.SourcesPath) {
-        _fileSystem.CreateDirectory(_downloadPath);
         _fileSystem.CreateDirectory(_sourcesPath);
     }
 
@@ -40,21 +38,21 @@ namespace pkg::actions {
 
         std::string archivePath{Download(package)};
 
-        std::string extractPath{_sourcesPath + "/" + ".content"};
+        std::string extractPath{_fileSystem.CreatePath(_sourcesPath, ".content")};
         std::string contentPath{Extract(archivePath, extractPath)};
 
         std::string destinationPath{GetPath(package)};
         _fileSystem.Remove(destinationPath);
         _fileSystem.Rename(contentPath, destinationPath);
         _fileSystem.Remove(extractPath);
-        //_shell.Run("find " + destinationPath + " ! -type l -exec chattr +iA {} +");
+        _shell.Run("find " + destinationPath + " ! -type l -exec chattr +iA {} +");
 
         PushToStorage(package);
     }
 
     std::string FetchAction::Download(const PackageMetadata &package) const {
         std::string fileName{"pkg-" + package.Name + "-" + package.Version};
-        std::string filePath{_downloadPath + "/" + fileName};
+        std::string filePath{_fileSystem.CreatePath(_fileSystem.GetTempDirectoryPath(), fileName)};
         _fileSystem.Remove(filePath);
         _fileSystem.Write(filePath, [&](std::ostream &stream) {
             _webClient.Load(package.Url, &stream);
@@ -64,7 +62,7 @@ namespace pkg::actions {
 
     std::string FetchAction::Extract(const std::string &filePath, const std::string &extractPath) const {
         _fileSystem.Remove(extractPath);
-        Archive archive{filePath};
+        Archive archive{filePath, _fileSystem};
         return archive.Extract(_sourcesPath);
     }
 }

@@ -5,6 +5,10 @@
 
 namespace pkg::infrastructure {
 
+    std::string FileSystem::GetTempDirectoryPath() const {
+        return std::filesystem::temp_directory_path();
+    }
+
     std::string FileSystem::CreatePath(const std::string &path, const std::string &relativePath) const {
         std::filesystem::path result{path};
         result.append(relativePath);

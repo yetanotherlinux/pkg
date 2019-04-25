@@ -13,7 +13,6 @@ namespace pkg {
         const std::string_view StoragePath;
         const std::string_view SourcesPath;
         const std::string_view BuildPath;
-        const std::string_view TmpPath;
         const std::string_view PackagesFileName;
         const std::string_view BinariesFileName;
         const std::string_view SourcesFileName;
