@@ -5,8 +5,8 @@
 
 namespace pkg {
 
-    PackageGraph::PackageGraph(std::shared_ptr<MetadataStorage> metadataStorage) :
-            _metadataStorage(std::move(metadataStorage)),
+    PackageGraph::PackageGraph(const std::shared_ptr<MetadataStorage> &metadataStorage) :
+            _metadataStorage(metadataStorage),
             _packages() {
     }
 

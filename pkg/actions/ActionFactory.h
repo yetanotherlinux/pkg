@@ -4,7 +4,7 @@
 #include <memory>
 #include <vector>
 #include "pkg/Log.h"
-#include "pkg/actions/IAction.h"
+#include "pkg/actions/StatusAction.h"
 #include "pkg/infrastructure/Shell.h"
 #include "pkg/infrastructure/WebClient.h"
 #include "pkg/storage/BinaryStorage.h"
@@ -22,20 +22,17 @@ namespace pkg::actions {
     class ActionFactory {
 
     private:
-        const std::shared_ptr<SourceStorage> _sourceStorage;
-        const std::shared_ptr<BinaryStorage> _binaryStorage;
-        const std::shared_ptr<PackageStorage> _packageStorage;
-        const FileSystem _fileSystem;
-        const WebClient _webClient;
-        const Shell _shell;
-        const Settings _settings;
-        const Log _log;
+        const std::shared_ptr<FetchAction> _fetchAction;
+        const std::shared_ptr<BuildAction> _buildAction;
+        const std::shared_ptr<InstallAction> _installAction;
+        const std::shared_ptr<UpdateAction> _updateAction;
+        const std::shared_ptr<StatusAction> _statusAction;
 
     public:
         ActionFactory(
-                std::shared_ptr<SourceStorage> sourceStorage,
-                std::shared_ptr<BinaryStorage> binaryStorage,
-                std::shared_ptr<PackageStorage> packageStorage,
+                const std::shared_ptr<SourceStorage> &sourceStorage,
+                const std::shared_ptr<BinaryStorage> &binaryStorage,
+                const std::shared_ptr<PackageStorage> &packageStorage,
                 const FileSystem &fileSystem,
                 const WebClient &webClient,
                 const Shell &shell,

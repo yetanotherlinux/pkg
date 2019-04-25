@@ -14,7 +14,7 @@ namespace pkg {
         std::vector<PackageMetadata> _packages;
 
     public:
-        PackageGraph(std::shared_ptr<MetadataStorage> metadataStorage);
+        PackageGraph(const std::shared_ptr<MetadataStorage> &metadataStorage);
 
         bool IsEmpty() const;
 

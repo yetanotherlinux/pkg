@@ -3,12 +3,16 @@
 namespace pkg::actions {
 
     UpdateAction::UpdateAction(
-            std::shared_ptr<PackageStorage> packageStorage,
-            std::shared_ptr<BuildAction> buildAction,
-            std::shared_ptr<InstallAction> installAction) :
-            Action(std::move(packageStorage), true),
-            _buildAction(std::move(buildAction)),
-            _installAction(std::move(installAction)) {
+            const std::shared_ptr<PackageStorage> &packageStorage,
+            const std::shared_ptr<BuildAction> &buildAction,
+            const std::shared_ptr<InstallAction> &installAction) :
+            Action(packageStorage, true),
+            _buildAction(buildAction),
+            _installAction(installAction) {
+    }
+
+    std::string UpdateAction::GetName() const {
+        return "update";
     }
 
     void UpdateAction::Perform(const PackageMetadata &package) const {

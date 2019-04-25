@@ -3,19 +3,23 @@
 namespace pkg::actions {
 
     BuildAction::BuildAction(
-            std::shared_ptr<BinaryStorage> binaryStorage,
-            std::shared_ptr<FetchAction> fetchAction,
+            const std::shared_ptr<BinaryStorage> &binaryStorage,
+            const std::shared_ptr<FetchAction> &fetchAction,
             const FileSystem &fileSystem,
             const Shell &shell,
             const Settings &settings,
             const Log &log) :
-            Action(std::move(binaryStorage), true),
-            _fetchAction(std::move(fetchAction)),
+            Action(binaryStorage, true),
+            _fetchAction(fetchAction),
             _fileSystem(fileSystem),
             _shell(shell),
             _log(log),
             _buildPath(settings.BuildPath) {
         _fileSystem.CreateDirectory(_buildPath);
+    }
+
+    std::string BuildAction::GetName() const {
+        return "build";
     }
 
     void BuildAction::Perform(const PackageMetadata &package) const {

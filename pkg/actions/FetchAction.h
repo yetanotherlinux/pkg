@@ -25,12 +25,14 @@ namespace pkg::actions {
 
     public:
         FetchAction(
-                std::shared_ptr<SourceStorage> sourceStorage,
+                const std::shared_ptr<SourceStorage> &sourceStorage,
                 const FileSystem &fileSystem,
                 const WebClient &webClient,
                 const Shell &shell,
                 const Settings &settings,
                 const Log &log);
+
+        std::string GetName() const override;
 
         std::string GetPath(const Package &package) const;
 

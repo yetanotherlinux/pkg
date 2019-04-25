@@ -2,8 +2,8 @@
 
 namespace pkg::actions {
 
-    Action::Action(std::shared_ptr<Storage> storage, bool checkVersion) :
-            _storage(std::move(storage)),
+    Action::Action(const std::shared_ptr<Storage> &storage, bool checkVersion) :
+            _storage(storage),
             _checkVersion(checkVersion) {
     }
 

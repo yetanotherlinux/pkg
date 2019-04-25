@@ -17,7 +17,7 @@ namespace pkg::actions {
         const bool _checkVersion;
 
     public:
-        Action(std::shared_ptr<Storage> storage, bool checkVersion);
+        Action(const std::shared_ptr<Storage> &storage, bool checkVersion);
 
         bool ShouldBePerformed(const Package &package) const override;
 

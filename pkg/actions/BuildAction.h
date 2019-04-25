@@ -21,12 +21,14 @@ namespace pkg::actions {
 
     public:
         BuildAction(
-                std::shared_ptr<BinaryStorage> binaryStorage,
-                std::shared_ptr<FetchAction> fetchAction,
+                const std::shared_ptr<BinaryStorage> &binaryStorage,
+                const std::shared_ptr<FetchAction> &fetchAction,
                 const FileSystem &fileSystem,
                 const Shell &shell,
                 const Settings &settings,
                 const Log &log);
+
+        std::string GetName() const override;
 
         void Perform(const PackageMetadata &package) const override;
 

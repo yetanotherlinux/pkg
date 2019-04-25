@@ -17,9 +17,11 @@ namespace pkg::actions {
 
     public:
         InstallAction(
-                std::shared_ptr<PackageStorage> packageStorage,
-                std::shared_ptr<BuildAction> buildAction,
+                const std::shared_ptr<PackageStorage> &packageStorage,
+                const std::shared_ptr<BuildAction> &buildAction,
                 const Shell &shell);
+
+        std::string GetName() const override;
 
         void Perform(const PackageMetadata &package) const override;
     };
