@@ -31,10 +31,10 @@ namespace pkg::actions {
         std::string rootPath{GetRootPath(package)};
         std::string buildPath{GetPath(package)};
         _fileSystem.Remove(rootPath);
-        _fileSystem.CreateDirectory(buildPath);
         _fileSystem.CreateLink(rootPath, _fetchAction->GetPath(package), "src");
-        RunCommands(_shell, package.Config, buildPath);
-        RunCommands(_shell, package.Build, buildPath);
+        _fileSystem.CreateDirectory(buildPath);
+        RunCommands(_shell, package.Config, buildPath, true);
+        RunCommands(_shell, package.Build, buildPath, true);
         PushToStorage(package);
     }
 

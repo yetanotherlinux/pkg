@@ -12,7 +12,7 @@ namespace pkg::actions {
             const Shell &shell,
             const Settings &settings,
             const Log &log) :
-            _fetchAction(std::make_shared<FetchAction>(sourceStorage, fileSystem, webClient, shell, settings, log)),
+            _fetchAction(std::make_shared<FetchAction>(sourceStorage, fileSystem, webClient, settings, log)),
             _buildAction(std::make_shared<BuildAction>(binaryStorage, _fetchAction, fileSystem, shell, settings, log)),
             _installAction(std::make_shared<InstallAction>(packageStorage, _buildAction, shell)),
             _updateAction(std::make_shared<UpdateAction>(packageStorage, _buildAction, _installAction)),

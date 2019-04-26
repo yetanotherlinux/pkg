@@ -20,9 +20,10 @@ namespace pkg::actions {
         _storage->Pop(package);
     }
 
-    void Action::RunCommands(const Shell &shell, const std::vector<std::string> &commands, const std::string &path) {
+    void Action::RunCommands(
+            const Shell &shell, const std::vector<std::string> &commands, const std::string &path, bool impersonate) {
         for (const std::string &command : commands) {
-            shell.Run(command, path);
+            shell.Run(command, path, impersonate);
         }
     }
 }

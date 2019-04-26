@@ -6,6 +6,7 @@ namespace pkg {
             ShCommand("bash"),
             DefaultAction("status"),
             RequiredPackageName("@environment"),
+            ImpersonationAccount("nobody"),
             MetadataUrl("https://raw.githubusercontent.com/yetanotherlinux/packages/master/"),
             StoragePath("/etc/pkg"),
             SourcesPath("/usr/src"),

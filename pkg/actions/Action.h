@@ -26,7 +26,9 @@ namespace pkg::actions {
 
         void PopFromStorage(const Package &package) const;
 
-        static void RunCommands(const Shell &shell, const std::vector<std::string> &commands, const std::string &path);
+        static void RunCommands(
+                const Shell &shell, const std::vector<std::string> &commands, const std::string &path,
+                bool impersonate = false);
     };
 }
 

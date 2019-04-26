@@ -10,13 +10,11 @@ namespace pkg::actions {
             const std::shared_ptr<SourceStorage> &sourceStorage,
             const FileSystem &fileSystem,
             const WebClient &webClient,
-            const Shell &shell,
             const Settings &settings,
             const Log &log) :
             Action(sourceStorage, true),
             _fileSystem(fileSystem),
             _webClient(webClient),
-            _shell(shell),
             _log(log),
             _sourcesPath(settings.SourcesPath) {
         _fileSystem.CreateDirectory(_sourcesPath);
@@ -45,7 +43,6 @@ namespace pkg::actions {
         _fileSystem.Remove(destinationPath);
         _fileSystem.Rename(contentPath, destinationPath);
         _fileSystem.Remove(extractPath);
-        _shell.Run("find " + destinationPath + " ! -type l -exec chattr +iA {} +");
 
         PushToStorage(package);
     }
