@@ -11,9 +11,12 @@ namespace pkg {
     private:
         std::string _action;
         std::vector<std::string> _packages;
+        bool _hasForceFlag;
 
     public:
         Args(int argc, char **argv, const Settings &settings);
+
+        bool HasForceFlag() const;
 
         std::string GetAction() const;
 

@@ -38,7 +38,7 @@ namespace pkg::actions {
 
         bool ShouldBePerformed(const Package &package) const override;
 
-        void Perform(const PackageMetadata &package) const override;
+        void Perform(const PackageMetadata &package, bool isForced) const override;
     };
 }
 

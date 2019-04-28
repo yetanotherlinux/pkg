@@ -12,6 +12,16 @@ namespace pkg::actions {
         return !storagePackage.has_value() || (_checkVersion && storagePackage->Version != package.Version);
     }
 
+    void Action::Perform(const PackageMetadata &package, bool isForced) const {
+        if (isForced) {
+            if (_storage->FindPackage(package.Name).has_value()) {
+                _storage->Pop(package);
+            }
+        }
+
+        Perform(package);
+    }
+
     void Action::PushToStorage(const Package &package) const {
         _storage->Push(package);
     }

@@ -53,7 +53,15 @@ int main(int argc, char **argv) {
     }
     while (!packageGraph.IsEmpty()) {
         PackageMetadata package{packageGraph.ExtractLeaf()};
-        action->Perform(package);
+        action->Perform(package, false);
     }
+
+    if (args.HasForceFlag()) {
+        for (const std::string &packageName : packageNames) {
+            PackageMetadata package{metadataStorage->GetPackageMetadata(packageName)};
+            action->Perform(package, true);
+        }
+    }
+
     return EXIT_SUCCESS;
 }

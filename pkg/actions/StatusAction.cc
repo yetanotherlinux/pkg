@@ -29,8 +29,8 @@ namespace pkg::actions {
         return _installAction->ShouldBePerformed(package) || _updateAction->ShouldBePerformed(package);
     }
 
-    void StatusAction::Perform(const PackageMetadata &package) const {
-        if (!ShouldBePerformed(package)) {
+    void StatusAction::Perform(const PackageMetadata &package, bool isForced) const {
+        if (!isForced && !ShouldBePerformed(package)) {
             return;
         }
         _log.Out() << std::left << std::setfill('.') <<
