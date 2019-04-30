@@ -41,13 +41,18 @@ namespace pkg {
     }
 
     PackageMetadata PackageGraph::ExtractLeaf() {
+        std::vector<PackageMetadata>::const_iterator weakDependency{_packages.end()};
         for (auto it{_packages.begin()}; it != _packages.end(); ++it) {
             bool isDepends{IsDepends(it->BuildDependencies) || IsDepends(it->StartupDependencies)};
             if (!isDepends) {
-                PackageMetadata package{*it};
-                _packages.erase(it);
-                return package;
+                if (!IsDepends(it->RuntimeDependencies)) {
+                    return Extract(it);
+                }
+                weakDependency = it;
             }
+        }
+        if (weakDependency != _packages.end()) {
+            return Extract(weakDependency);
         }
         for (auto it{_packages.begin()}; it != _packages.end(); ++it) {
             if (it->Name == "gcc") {
@@ -73,5 +78,11 @@ namespace pkg {
             }
         }
         return false;
+    }
+
+    PackageMetadata PackageGraph::Extract(std::vector<PackageMetadata>::const_iterator it) {
+        PackageMetadata package{*it};
+        _packages.erase(it);
+        return package;
     }
 }

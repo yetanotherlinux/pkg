@@ -27,6 +27,8 @@ namespace pkg {
 
         bool IsDepends(const std::vector<std::string> &dependencies) const;
 
+        PackageMetadata Extract(std::vector<PackageMetadata>::const_iterator it);
+
     };
 }
 
