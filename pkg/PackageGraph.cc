@@ -80,7 +80,7 @@ namespace pkg {
         return false;
     }
 
-    PackageMetadata PackageGraph::Extract(std::vector<PackageMetadata>::const_iterator it) {
+    PackageMetadata PackageGraph::Extract(const std::vector<PackageMetadata>::const_iterator &it) {
         PackageMetadata package{*it};
         _packages.erase(it);
         return package;
