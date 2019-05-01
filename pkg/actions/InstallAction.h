@@ -13,17 +13,22 @@ namespace pkg::actions {
 
     private:
         const std::shared_ptr<BuildAction> _buildAction;
+        const FileSystem _fileSystem;
         const Shell _shell;
 
     public:
         InstallAction(
                 const std::shared_ptr<PackageStorage> &packageStorage,
                 const std::shared_ptr<BuildAction> &buildAction,
+                const FileSystem &fileSystem,
                 const Shell &shell);
 
         std::string GetName() const override;
 
         void Perform(const PackageMetadata &package) const override;
+
+    private:
+        void ResetLdCache() const;
     };
 }
 
