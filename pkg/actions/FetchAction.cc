@@ -60,6 +60,6 @@ namespace pkg::actions {
     std::string FetchAction::Extract(const std::string &filePath, const std::string &extractPath) const {
         _fileSystem.Remove(extractPath);
         Archive archive{filePath, _fileSystem};
-        return archive.Extract(_sourcesPath);
+        return archive.Extract(extractPath);
     }
 }
