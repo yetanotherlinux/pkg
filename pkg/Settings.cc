@@ -14,6 +14,8 @@ namespace pkg {
             HostFileName("host.json"),
             PackagesFileName("packages.json"),
             BinariesFileName("binaries.json"),
-            SourcesFileName("sources.json") {
+            SourcesFileName("sources.json"),
+            LdCommand("ldconfig"),
+            LdCachePath("/etc/ld.so.cache") {
     }
 }

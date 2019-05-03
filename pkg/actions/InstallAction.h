@@ -15,13 +15,15 @@ namespace pkg::actions {
         const std::shared_ptr<BuildAction> _buildAction;
         const FileSystem _fileSystem;
         const Shell _shell;
+        const Settings _settings;
 
     public:
         InstallAction(
                 const std::shared_ptr<PackageStorage> &packageStorage,
                 const std::shared_ptr<BuildAction> &buildAction,
                 const FileSystem &fileSystem,
-                const Shell &shell);
+                const Shell &shell,
+                const Settings &settings);
 
         std::string GetName() const override;
 

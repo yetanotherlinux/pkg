@@ -14,7 +14,7 @@ namespace pkg::actions {
             const Log &log) :
             _fetchAction(std::make_shared<FetchAction>(sourceStorage, fileSystem, webClient, settings, log)),
             _buildAction(std::make_shared<BuildAction>(binaryStorage, _fetchAction, fileSystem, shell, settings, log)),
-            _installAction(std::make_shared<InstallAction>(packageStorage, _buildAction, fileSystem, shell)),
+            _installAction(std::make_shared<InstallAction>(packageStorage, _buildAction, fileSystem, shell, settings)),
             _updateAction(std::make_shared<UpdateAction>(packageStorage, _buildAction, _installAction)),
             _statusAction(std::make_shared<StatusAction>(
                     _fetchAction, _buildAction, _installAction, _updateAction, log)) {

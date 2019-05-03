@@ -6,11 +6,13 @@ namespace pkg::actions {
             const std::shared_ptr<PackageStorage> &packageStorage,
             const std::shared_ptr<BuildAction> &buildAction,
             const FileSystem &fileSystem,
-            const Shell &shell) :
+            const Shell &shell,
+            const Settings &settings) :
             Action(packageStorage, false),
             _buildAction(buildAction),
             _fileSystem(fileSystem),
-            _shell(shell) {
+            _shell(shell),
+            _settings(settings) {
     }
 
     std::string InstallAction::GetName() const {
@@ -30,7 +32,7 @@ namespace pkg::actions {
     }
 
     void InstallAction::ResetLdCache() const {
-        _fileSystem.Remove("/etc/ld.so.cache");
-        _shell.Run("ldconfig");
+        _fileSystem.Remove(std::string(_settings.LdCachePath));
+        _shell.Run(std::string(_settings.LdCommand));
     }
 }
