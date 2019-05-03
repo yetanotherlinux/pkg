@@ -34,7 +34,7 @@ int main(int argc, char **argv) {
     const std::shared_ptr<IAction> action{actionFactory.CreateAction(args.GetAction())};
     if (!action) {
         log.Error() << "Invalid action '" << args.GetAction() << "'" << std::endl;
-        for (const std::string_view &act : actionFactory.GetActions()) {
+        for (const std::string &act : actionFactory.GetActions()) {
             log.Error() << '\t' << act << std::endl;
         }
         return EXIT_FAILURE;

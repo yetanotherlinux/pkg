@@ -39,7 +39,7 @@ namespace pkg::actions {
                 const Settings &settings,
                 const Log &log);
 
-        std::vector<std::string_view> GetActions() const;
+        std::vector<std::string> GetActions() const;
 
         std::shared_ptr<IAction> CreateAction(const std::string &name) const;
     };

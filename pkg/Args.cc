@@ -8,16 +8,19 @@ namespace pkg {
             _action(),
             _packages(),
             _hasForceFlag() {
-        int index{1};
-
         const std::string flagPrefix{"--"};
-        for (std::string s{argv[index]};
-             s.size() >= flagPrefix.size() && s.substr(0, flagPrefix.size()) == flagPrefix;
-             s = argv[++index]) {
-            if (s == "--force") {
-                _hasForceFlag = true;
+        int index{};
+
+        while (argc > ++index) {
+            std::string s{argv[index]};
+            if (s.size() >= flagPrefix.size() && s.substr(0, flagPrefix.size()) == flagPrefix) {
+                if (s == "--force") {
+                    _hasForceFlag = true;
+                } else {
+                    throw Exception("Unknown flag '" + s + "'");
+                }
             } else {
-                throw Exception("Unknown flag '" + s + "'");
+                break;
             }
         }
 

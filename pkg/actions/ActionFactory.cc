@@ -20,7 +20,7 @@ namespace pkg::actions {
                     _fetchAction, _buildAction, _installAction, _updateAction, log)) {
     }
 
-    std::vector<std::string_view> ActionFactory::GetActions() const {
+    std::vector<std::string> ActionFactory::GetActions() const {
         return {
                 _statusAction->GetName(),
                 _fetchAction->GetName(),
