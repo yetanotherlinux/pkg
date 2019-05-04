@@ -2,6 +2,8 @@
 
 #include <filesystem>
 #include <fstream>
+#include <unistd.h>
+#include "pkg/Exception.h"
 
 namespace pkg::infrastructure {
 
@@ -52,5 +54,16 @@ namespace pkg::infrastructure {
 
     void FileSystem::Remove(const std::string &path) const {
         std::filesystem::remove_all(path);
+    }
+
+    void FileSystem::SetOwner(const std::string &path, const Account &account) const {
+        for (const auto &entry : std::filesystem::recursive_directory_iterator(path)) {
+            if (chown(entry.path().c_str(), account.Id, account.GroupId)) {
+                throw Exception("Can't set working directory owner: " + entry.path().string());
+            }
+        }
+        if (chown(path.c_str(), account.Id, account.GroupId)) {
+            throw Exception("Can't set working directory owner: " + path);
+        }
     }
 }

@@ -1,7 +1,8 @@
 #ifndef PKG_INFRASTRUCTURE_SHELL_H
 #define PKG_INFRASTRUCTURE_SHELL_H
 
-#include <pwd.h>
+#include <optional>
+#include "pkg/Account.h"
 #include "pkg/Settings.h"
 
 namespace pkg::infrastructure {
@@ -15,10 +16,13 @@ namespace pkg::infrastructure {
 
         void Run(const std::string &command) const;
 
-        void Run(const std::string &command, const std::string &workingDirectory, bool impersonate) const;
+        void Run(
+                const std::string &command,
+                const std::string &workingDirectory,
+                const std::optional<Account> &account) const;
 
     private:
-        static void Impersonate(const passwd *account);
+        static void Impersonate(const Account &account);
 
         static void Execute(const std::string &sh, const std::string &command);
     };

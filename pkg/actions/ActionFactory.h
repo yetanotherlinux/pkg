@@ -33,6 +33,7 @@ namespace pkg::actions {
                 const std::shared_ptr<SourceStorage> &sourceStorage,
                 const std::shared_ptr<BinaryStorage> &binaryStorage,
                 const std::shared_ptr<PackageStorage> &packageStorage,
+                const Account &impersonationAccount,
                 const FileSystem &fileSystem,
                 const WebClient &webClient,
                 const Shell &shell,

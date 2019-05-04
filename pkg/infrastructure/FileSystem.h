@@ -2,6 +2,7 @@
 #define PKG_INFRASTRUCTURE_FILE_SYSTEM_H
 
 #include <functional>
+#include "pkg/Account.h"
 
 namespace pkg::infrastructure {
     class FileSystem {
@@ -24,6 +25,8 @@ namespace pkg::infrastructure {
         void Rename(const std::string &path, const std::string &destination) const;
 
         void Remove(const std::string &path) const;
+
+        void SetOwner(const std::string &path, const Account &account) const;
     };
 }
 

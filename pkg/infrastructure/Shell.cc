@@ -1,5 +1,6 @@
 #include "Shell.h"
 
+#include <filesystem>
 #include <unistd.h>
 #include <wait.h>
 #include "pkg/Exception.h"
@@ -11,32 +12,23 @@ namespace pkg::infrastructure {
     }
 
     void Shell::Run(const std::string &command) const {
-        Run(command, "", false);
+        Run(command, "", std::nullopt);
     }
 
-    void Shell::Run(const std::string &command, const std::string &workingDirectory, bool impersonate) const {
+    void Shell::Run(
+            const std::string &command,
+            const std::string &workingDirectory,
+            const std::optional<Account> &account) const {
         pid_t pid{fork()};
         if (pid < 0) {
             throw Exception("Fork failed");
         }
         if (pid == 0) {
-            passwd *account{nullptr};
-            if (impersonate) {
-                account = getpwnam(std::string(_settings.ImpersonationAccount).c_str());
-                if (!account) {
-                    throw Exception("Impersonation failed: no such account");
-                }
-            }
             if (!workingDirectory.empty()) {
-                if (chdir(workingDirectory.c_str())) {
-                    throw Exception("Can't set working directory: " + workingDirectory);
-                }
-                if (account && chown(workingDirectory.c_str(), account->pw_uid, account->pw_gid)) {
-                    throw Exception("Can't set working directory owner: " + workingDirectory);
-                }
+                std::filesystem::current_path(workingDirectory);
             }
-            if (account) {
-                Impersonate(account);
+            if (account.has_value()) {
+                Impersonate(account.value());
             }
             Execute(std::string(_settings.ShCommand), command);
             throw Exception("Unexpected call");
@@ -66,11 +58,11 @@ namespace pkg::infrastructure {
         }
     }
 
-    void Shell::Impersonate(const passwd *account) {
-        if (setgid(account->pw_gid)) {
+    void Shell::Impersonate(const Account &account) {
+        if (setgid(account.Id)) {
             throw Exception("Impersonation failed: can't set group id");
         }
-        if (setuid(account->pw_uid)) {
+        if (setuid(account.GroupId)) {
             throw Exception("Impersonation failed: can't set user id");
         }
         if (!setuid(0)) {

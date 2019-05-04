@@ -31,9 +31,12 @@ namespace pkg::actions {
     }
 
     void Action::RunCommands(
-            const Shell &shell, const std::vector<std::string> &commands, const std::string &path, bool impersonate) {
+            const Shell &shell,
+            const std::vector<std::string> &commands,
+            const std::string &path,
+            const std::optional<Account> &account) {
         for (const std::string &command : commands) {
-            shell.Run(command, path, impersonate);
+            shell.Run(command, path, account);
         }
     }
 }

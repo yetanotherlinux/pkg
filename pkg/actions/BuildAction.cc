@@ -5,12 +5,14 @@ namespace pkg::actions {
     BuildAction::BuildAction(
             const std::shared_ptr<BinaryStorage> &binaryStorage,
             const std::shared_ptr<FetchAction> &fetchAction,
+            const Account &account,
             const FileSystem &fileSystem,
             const Shell &shell,
             const Settings &settings,
             const Log &log) :
             Action(binaryStorage, true),
             _fetchAction(fetchAction),
+            _account(account),
             _fileSystem(fileSystem),
             _shell(shell),
             _log(log),
@@ -33,8 +35,10 @@ namespace pkg::actions {
         _fileSystem.Remove(rootPath);
         _fileSystem.CreateDirectory(buildPath);
         _fileSystem.CreateLink(rootPath, _fetchAction->GetPath(package), "src");
-        RunCommands(_shell, package.Config, buildPath, true);
-        RunCommands(_shell, package.Build, buildPath, true);
+        _fileSystem.SetOwner(buildPath, _account);
+        RunCommands(_shell, package.Config, buildPath, _account);
+        RunCommands(_shell, package.Build, buildPath, _account);
+        _fileSystem.SetOwner(buildPath, {0, 0});
         PushToStorage(package);
     }
 

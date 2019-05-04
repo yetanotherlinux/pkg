@@ -1,5 +1,6 @@
 add_executable(pkg
         main
+        Account
         Args
         Exception
         Log
