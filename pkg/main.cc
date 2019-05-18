@@ -31,7 +31,7 @@ int main(int argc, char **argv) {
 
     const FileSystem fileSystem{};
     const WebClient webClient{};
-    const Shell shell{settings};
+    const Shell shell{settings, log};
     std::shared_ptr<MetadataStorage> metadataStorage{std::make_shared<MetadataStorage>(settings, webClient)};
     std::shared_ptr<SourceStorage> sourceStorage{std::make_shared<SourceStorage>(settings, fileSystem)};
     std::shared_ptr<BinaryStorage> binaryStorage{std::make_shared<BinaryStorage>(settings, fileSystem)};

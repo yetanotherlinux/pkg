@@ -30,6 +30,8 @@ namespace pkg::actions {
         }
         _fetchAction->Perform(package);
 
+        _log.Out() << "Building " << package.Name << " " << package.Version << std::endl;
+
         std::string rootPath{GetRootPath(package)};
         std::string buildPath{GetPath(package)};
         _fileSystem.Remove(rootPath);

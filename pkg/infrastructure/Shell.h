@@ -3,6 +3,7 @@
 
 #include <optional>
 #include "pkg/Account.h"
+#include "pkg/Log.h"
 #include "pkg/Settings.h"
 
 namespace pkg::infrastructure {
@@ -10,9 +11,10 @@ namespace pkg::infrastructure {
 
     private:
         const Settings _settings;
+        const Log _log;
 
     public:
-        Shell(const Settings &settings);
+        Shell(const Settings &settings, const Log &log);
 
         void Run(const std::string &command) const;
 
@@ -25,6 +27,8 @@ namespace pkg::infrastructure {
         static void Impersonate(const Account &account);
 
         static void Execute(const std::string &sh, const std::string &command);
+
+        static void PrintOutput(const Log &log, int pipesDescriptors[2]);
     };
 }
 
