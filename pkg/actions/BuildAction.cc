@@ -3,14 +3,14 @@
 namespace pkg::actions {
 
     BuildAction::BuildAction(
-            const std::shared_ptr<BinaryStorage> &binaryStorage,
+            const std::shared_ptr<BuildStorage> &buildStorage,
             const std::shared_ptr<FetchAction> &fetchAction,
             const Account &account,
             const FileSystem &fileSystem,
             const Shell &shell,
             const Settings &settings,
             const Log &log) :
-            Action(binaryStorage, true),
+            Action(buildStorage, true),
             _fetchAction(fetchAction),
             _account(account),
             _fileSystem(fileSystem),

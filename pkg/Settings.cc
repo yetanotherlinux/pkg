@@ -13,7 +13,7 @@ namespace pkg {
             BuildPath("/var/tmp/pkg"),
             HostFileName("host.json"),
             PackagesFileName("packages.json"),
-            BinariesFileName("binaries.json"),
+            BuildsFileName("builds.json"),
             SourcesFileName("sources.json"),
             LdCommand("ldconfig"),
             LdCachePath("/etc/ld.so.cache") {

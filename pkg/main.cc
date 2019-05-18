@@ -34,13 +34,13 @@ int main(int argc, char **argv) {
     const Shell shell{settings, log};
     std::shared_ptr<MetadataStorage> metadataStorage{std::make_shared<MetadataStorage>(settings, webClient)};
     std::shared_ptr<SourceStorage> sourceStorage{std::make_shared<SourceStorage>(settings, fileSystem)};
-    std::shared_ptr<BinaryStorage> binaryStorage{std::make_shared<BinaryStorage>(settings, fileSystem)};
+    std::shared_ptr<BuildStorage> buildStorage{std::make_shared<BuildStorage>(settings, fileSystem)};
     std::shared_ptr<PackageStorage> packageStorage{std::make_shared<PackageStorage>(settings, fileSystem)};
     std::shared_ptr<HostStorage> hostStorage{std::make_shared<HostStorage>(settings, fileSystem)};
 
     Account account{GetImpersonationAccount(settings.ImpersonationAccount)};
     const ActionFactory actionFactory{
-            sourceStorage, binaryStorage, packageStorage, account, fileSystem, webClient, shell, settings, log
+            sourceStorage, buildStorage, packageStorage, account, fileSystem, webClient, shell, settings, log
     };
     const std::shared_ptr<IAction> action{actionFactory.CreateAction(args.GetAction())};
     if (!action) {

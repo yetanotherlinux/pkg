@@ -17,7 +17,7 @@ namespace pkg {
         const std::string_view BuildPath;
         const std::string_view HostFileName;
         const std::string_view PackagesFileName;
-        const std::string_view BinariesFileName;
+        const std::string_view BuildsFileName;
         const std::string_view SourcesFileName;
         const std::string_view LdCommand;
         const std::string_view LdCachePath;

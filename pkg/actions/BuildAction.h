@@ -5,9 +5,9 @@
 
 #include "pkg/Log.h"
 #include "pkg/actions/FetchAction.h"
-#include "pkg/storage/BinaryStorage.h"
+#include "pkg/storage/BuildStorage.h"
 
-using pkg::storage::BinaryStorage;
+using pkg::storage::BuildStorage;
 
 namespace pkg::actions {
     class BuildAction : public Action {
@@ -22,7 +22,7 @@ namespace pkg::actions {
 
     public:
         BuildAction(
-                const std::shared_ptr<BinaryStorage> &binaryStorage,
+                const std::shared_ptr<BuildStorage> &buildStorage,
                 const std::shared_ptr<FetchAction> &fetchAction,
                 const Account &account,
                 const FileSystem &fileSystem,

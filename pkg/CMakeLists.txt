@@ -20,7 +20,7 @@ add_executable(pkg
         actions/InstallAction
         actions/StatusAction
         actions/UpdateAction
-        storage/BinaryStorage
+        storage/BuildStorage
         storage/HostStorage
         storage/MetadataStorage
         storage/PackageStorage

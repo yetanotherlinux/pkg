@@ -7,14 +7,14 @@
 #include "pkg/actions/StatusAction.h"
 #include "pkg/infrastructure/Shell.h"
 #include "pkg/infrastructure/WebClient.h"
-#include "pkg/storage/BinaryStorage.h"
+#include "pkg/storage/BuildStorage.h"
 #include "pkg/storage/PackageStorage.h"
 #include "pkg/storage/SourceStorage.h"
 
 using pkg::actions::IAction;
 using pkg::infrastructure::Shell;
 using pkg::infrastructure::WebClient;
-using pkg::storage::BinaryStorage;
+using pkg::storage::BuildStorage;
 using pkg::storage::PackageStorage;
 using pkg::storage::SourceStorage;
 
@@ -31,7 +31,7 @@ namespace pkg::actions {
     public:
         ActionFactory(
                 const std::shared_ptr<SourceStorage> &sourceStorage,
-                const std::shared_ptr<BinaryStorage> &binaryStorage,
+                const std::shared_ptr<BuildStorage> &buildStorage,
                 const std::shared_ptr<PackageStorage> &packageStorage,
                 const Account &impersonationAccount,
                 const FileSystem &fileSystem,
