@@ -33,7 +33,6 @@ namespace pkg::infrastructure {
         }
         if (pid == 0) {
             dup2(pipesDescriptors[1], STDOUT_FILENO);
-            dup2(pipesDescriptors[1], STDERR_FILENO);
             close(pipesDescriptors[0]);
             close(pipesDescriptors[1]);
             if (!workingDirectory.empty()) {
@@ -124,6 +123,8 @@ namespace pkg::infrastructure {
             if (isNewLined || nl || (maxLineLength && lineLength + length >= maxLineLength)) {
                 log.Out() << cr << std::setfill(space) << std::setw(lineLength) << "" << cr;
             }
+
+            replace_char(nl ? nl : buffer, '\t', ' ');
 
             if (nl) {
                 if (static_cast<size_t>(buffer + length - nl) > maxLineLength) {
