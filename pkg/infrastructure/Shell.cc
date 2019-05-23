@@ -83,6 +83,15 @@ namespace pkg::infrastructure {
         }
     }
 
+    char *replace_char(char *str, char find, char replace) {
+        char *current_pos = strchr(str, find);
+        while (current_pos) {
+            *current_pos = replace;
+            current_pos = strchr(current_pos, find);
+        }
+        return str;
+    }
+
     void Shell::PrintOutput(const Log &log, int pipesDescriptors[2]) {
         close(pipesDescriptors[1]);
 
@@ -125,6 +134,9 @@ namespace pkg::infrastructure {
                 lineLength = length - (nl - buffer);
                 log.Out() << nl;
             } else {
+                if (isNewLined) {
+                    lineLength = 0;
+                }
                 lineLength += length;
                 if (!maxLineLength || lineLength < maxLineLength) {
                     log.Out() << buffer;
