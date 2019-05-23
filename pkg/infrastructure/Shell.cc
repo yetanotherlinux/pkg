@@ -97,14 +97,22 @@ namespace pkg::infrastructure {
         ioctl(STDOUT_FILENO, TIOCGWINSZ, &ws);
         size_t maxLineLength{ws.ws_col};
 
+        bool isNewLined{};
         while (ssize_t length{read(pipesDescriptors[0], buffer, bufSize)}) {
             if (length < 0) {
                 throw std::exception();
             }
+
+            bool endsWithNewLine{};
+            while (length > 1 && buffer[length - 1] == eol) {
+                endsWithNewLine = true;
+                --length;
+            }
             buffer[length] = '\0';
+
             char *nl{std::strrchr(buffer, eol)};
 
-            if (nl || (maxLineLength && lineLength + length >= maxLineLength)) {
+            if (isNewLined || nl || (maxLineLength && lineLength + length >= maxLineLength)) {
                 log.Out() << cr << std::setfill(space) << std::setw(lineLength) << "" << cr;
             }
 
@@ -126,6 +134,7 @@ namespace pkg::infrastructure {
                 }
             }
             log.Out() << std::flush;
+            isNewLined = endsWithNewLine;
         }
         log.Out() << cr << std::flush;
         close(pipesDescriptors[0]);
