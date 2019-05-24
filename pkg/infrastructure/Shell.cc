@@ -33,6 +33,7 @@ namespace pkg::infrastructure {
         }
         if (pid == 0) {
             dup2(pipesDescriptors[1], STDOUT_FILENO);
+            dup2(pipesDescriptors[1], STDERR_FILENO);
             close(pipesDescriptors[0]);
             close(pipesDescriptors[1]);
             if (!workingDirectory.empty()) {
