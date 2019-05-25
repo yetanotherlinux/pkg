@@ -26,7 +26,8 @@ namespace pkg::actions {
         _buildAction->Perform(package);
 
         std::string buildPath{_buildAction->GetPath(package)};
-        RunCommands(_shell, package.Install, buildPath);
+        std::string logPath{_buildAction->GetLogPath(package, "install")};
+        RunCommands(_shell, package.Install, buildPath, logPath);
         PushToStorage(package);
         ResetLdCache();
     }

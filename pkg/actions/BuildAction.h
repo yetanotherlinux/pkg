@@ -36,6 +36,8 @@ namespace pkg::actions {
 
         std::string GetPath(const PackageMetadata &package) const;
 
+        std::string GetLogPath(const PackageMetadata &package, const std::string &logName) const;
+
     private:
         std::string GetRootPath(const PackageMetadata &package) const;
     };

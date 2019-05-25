@@ -1,5 +1,6 @@
 #include "Shell.h"
 
+#include <fcntl.h>
 #include <filesystem>
 #include <unistd.h>
 #include <wait.h>
@@ -13,12 +14,13 @@ namespace pkg::infrastructure {
     }
 
     void Shell::Run(const std::string &command) const {
-        Run(command, "", std::nullopt);
+        Run(command, "", "", std::nullopt);
     }
 
     void Shell::Run(
             const std::string &command,
             const std::string &workingDirectory,
+            const std::string &logPath,
             const std::optional<Account> &account) const {
         pid_t pid{fork()};
         if (pid < 0) {
@@ -29,9 +31,14 @@ namespace pkg::infrastructure {
             if (!workingDirectory.empty()) {
                 std::filesystem::current_path(workingDirectory);
             }
+            if (!logPath.empty()) {
+                SetOutputRedirection(logPath);
+            }
             if (account.has_value()) {
                 Impersonate(account.value());
             }
+            printf("\n%s\n", "=====");
+            printf("%s\n", command.c_str());
             Execute(std::string(_settings.ShCommand), command);
             throw Exception("Unexpected call");
         }
@@ -71,5 +78,15 @@ namespace pkg::infrastructure {
         if (!setuid(0)) {
             throw Exception("Impersonation failed: can set user id after impersonation");
         }
+    }
+
+    void Shell::SetOutputRedirection(const std::string &path) {
+        int fd = open(path.c_str(), O_WRONLY | O_CREAT | O_APPEND, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+        if (fd < 0) {
+            throw Exception("Log file '" + path + "' open failed");
+        }
+        dup2(fd, STDOUT_FILENO);
+        dup2(fd, STDERR_FILENO);
+        close(fd);
     }
 }

@@ -21,10 +21,13 @@ namespace pkg::infrastructure {
         void Run(
                 const std::string &command,
                 const std::string &workingDirectory,
+                const std::string &logPath,
                 const std::optional<Account> &account) const;
 
     private:
         static void Impersonate(const Account &account);
+
+        static void SetOutputRedirection(const std::string &path);
 
         static void Execute(const std::string &sh, const std::string &command);
     };

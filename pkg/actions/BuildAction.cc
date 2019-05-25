@@ -38,14 +38,18 @@ namespace pkg::actions {
         _fileSystem.CreateDirectory(buildPath);
         _fileSystem.CreateLink(rootPath, _fetchAction->GetPath(package), "src");
         _fileSystem.SetOwner(buildPath, _account);
-        RunCommands(_shell, package.Config, buildPath, _account);
-        RunCommands(_shell, package.Build, buildPath, _account);
+        RunCommands(_shell, package.Config, buildPath, GetLogPath(package, "config"), _account);
+        RunCommands(_shell, package.Build, buildPath, GetLogPath(package, "build"), _account);
         _fileSystem.SetOwner(buildPath, {0, 0});
         PushToStorage(package);
     }
 
     std::string BuildAction::GetPath(const PackageMetadata &package) const {
         return _fileSystem.CreatePath(GetRootPath(package), "build");
+    }
+
+    std::string BuildAction::GetLogPath(const PackageMetadata &package, const std::string &logName) const {
+        return _fileSystem.CreatePath(GetRootPath(package), logName + ".log");
     }
 
     std::string BuildAction::GetRootPath(const PackageMetadata &package) const {

@@ -34,6 +34,7 @@ namespace pkg::actions {
                 const Shell &shell,
                 const std::vector<std::string> &commands,
                 const std::string &path,
+                const std::string &logPath,
                 const std::optional<Account> &account = std::nullopt);
     };
 }
