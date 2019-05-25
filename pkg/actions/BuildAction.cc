@@ -10,11 +10,10 @@ namespace pkg::actions {
             const Shell &shell,
             const Settings &settings,
             const Log &log) :
-            Action(buildStorage, true),
+            CommandAction(buildStorage, true, shell),
             _fetchAction(fetchAction),
             _account(account),
             _fileSystem(fileSystem),
-            _shell(shell),
             _log(log),
             _buildPath(settings.BuildPath) {
         _fileSystem.CreateDirectory(_buildPath);
@@ -38,8 +37,8 @@ namespace pkg::actions {
         _fileSystem.CreateDirectory(buildPath);
         _fileSystem.CreateLink(rootPath, _fetchAction->GetPath(package), "src");
         _fileSystem.SetOwner(buildPath, _account);
-        RunCommands(_shell, package.Config, buildPath, GetLogPath(package, "config"), _account);
-        RunCommands(_shell, package.Build, buildPath, GetLogPath(package, "build"), _account);
+        RunCommands(package.Config, buildPath, GetLogPath(package, "config"), _account);
+        RunCommands(package.Build, buildPath, GetLogPath(package, "build"), _account);
         _fileSystem.SetOwner(buildPath, {0, 0});
         PushToStorage(package);
     }

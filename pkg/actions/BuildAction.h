@@ -1,7 +1,7 @@
 #ifndef PKG_ACTIONS_BUILD_ACTION_H
 #define PKG_ACTIONS_BUILD_ACTION_H
 
-#include "pkg/actions/Action.h"
+#include "pkg/actions/CommandAction.h"
 
 #include "pkg/Log.h"
 #include "pkg/actions/FetchAction.h"
@@ -10,13 +10,12 @@
 using pkg::storage::BuildStorage;
 
 namespace pkg::actions {
-    class BuildAction : public Action {
+    class BuildAction : public CommandAction {
 
     private:
         const std::shared_ptr<FetchAction> _fetchAction;
         const Account _account;
         const FileSystem _fileSystem;
-        const Shell _shell;
         const Log _log;
         const std::string _buildPath;
 

@@ -15,6 +15,7 @@ add_executable(pkg
         actions/Action
         actions/ActionFactory
         actions/BuildAction
+        actions/CommandAction
         actions/FetchAction
         actions/IAction
         actions/InstallAction

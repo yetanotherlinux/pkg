@@ -3,10 +3,8 @@
 
 #include "pkg/actions/IAction.h"
 
-#include "pkg/infrastructure/Shell.h"
 #include "pkg/storage/Storage.h"
 
-using pkg::infrastructure::Shell;
 using pkg::storage::Storage;
 
 namespace pkg::actions {
@@ -29,13 +27,6 @@ namespace pkg::actions {
         void PushToStorage(const Package &package) const;
 
         void PopFromStorage(const Package &package) const;
-
-        static void RunCommands(
-                const Shell &shell,
-                const std::vector<std::string> &commands,
-                const std::string &path,
-                const std::string &logPath,
-                const std::optional<Account> &account = std::nullopt);
     };
 }
 

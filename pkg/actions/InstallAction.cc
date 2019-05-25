@@ -8,10 +8,9 @@ namespace pkg::actions {
             const FileSystem &fileSystem,
             const Shell &shell,
             const Settings &settings) :
-            Action(packageStorage, false),
+            CommandAction(packageStorage, false, shell),
             _buildAction(buildAction),
             _fileSystem(fileSystem),
-            _shell(shell),
             _settings(settings) {
     }
 
@@ -27,13 +26,13 @@ namespace pkg::actions {
 
         std::string buildPath{_buildAction->GetPath(package)};
         std::string logPath{_buildAction->GetLogPath(package, "install")};
-        RunCommands(_shell, package.Install, buildPath, logPath);
+        RunCommands(package.Install, buildPath, logPath);
         PushToStorage(package);
         ResetLdCache();
     }
 
     void InstallAction::ResetLdCache() const {
         _fileSystem.Remove(std::string(_settings.LdCachePath));
-        _shell.Run(std::string(_settings.LdCommand));
+        RunCommand(std::string(_settings.LdCommand));
     }
 }

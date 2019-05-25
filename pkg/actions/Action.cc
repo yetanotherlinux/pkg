@@ -29,15 +29,4 @@ namespace pkg::actions {
     void Action::PopFromStorage(const Package &package) const {
         _storage->Pop(package);
     }
-
-    void Action::RunCommands(
-            const Shell &shell,
-            const std::vector<std::string> &commands,
-            const std::string &path,
-            const std::string &logPath,
-            const std::optional<Account> &account) {
-        for (const std::string &command : commands) {
-            shell.Run(command, path, logPath, account);
-        }
-    }
 }
