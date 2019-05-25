@@ -21,7 +21,7 @@ namespace pkg::actions {
             const std::string &path,
             const std::string &logPath,
             const std::optional<Account> &account) const {
-        _shell.Run(command, path, logPath, account);
+        _shell.Run(_substitution.Process(command), path, logPath, account);
     }
 
     void CommandAction::RunCommands(
@@ -30,7 +30,7 @@ namespace pkg::actions {
             const std::string &logPath,
             const std::optional<Account> &account) const {
         for (const std::string &command : commands) {
-            RunCommand(_substitution.Process(command), path, logPath, account);
+            RunCommand(command, path, logPath, account);
         }
     }
 }
