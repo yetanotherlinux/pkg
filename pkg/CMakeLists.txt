@@ -8,6 +8,7 @@ add_executable(pkg
         PackageGraph
         PackageMetadata
         Settings
+        Substitution
         infrastructure/Archive
         infrastructure/FileSystem
         infrastructure/Shell

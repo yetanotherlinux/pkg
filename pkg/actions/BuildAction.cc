@@ -5,12 +5,13 @@ namespace pkg::actions {
     BuildAction::BuildAction(
             const std::shared_ptr<BuildStorage> &buildStorage,
             const std::shared_ptr<FetchAction> &fetchAction,
+            const Substitution &substitution,
             const Account &account,
             const FileSystem &fileSystem,
             const Shell &shell,
             const Settings &settings,
             const Log &log) :
-            CommandAction(buildStorage, true, shell),
+            CommandAction(buildStorage, substitution, shell, true),
             _fetchAction(fetchAction),
             _account(account),
             _fileSystem(fileSystem),

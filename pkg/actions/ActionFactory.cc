@@ -7,6 +7,7 @@ namespace pkg::actions {
             const std::shared_ptr<SourceStorage> &sourceStorage,
             const std::shared_ptr<BuildStorage> &buildStorage,
             const std::shared_ptr<PackageStorage> &packageStorage,
+            const Substitution &substitution,
             const Account &impersonationAccount,
             const FileSystem &fileSystem,
             const WebClient &webClient,
@@ -15,8 +16,9 @@ namespace pkg::actions {
             const Log &log) :
             _fetchAction(std::make_shared<FetchAction>(sourceStorage, fileSystem, webClient, settings, log)),
             _buildAction(std::make_shared<BuildAction>(
-                    buildStorage, _fetchAction, impersonationAccount, fileSystem, shell, settings, log)),
-            _installAction(std::make_shared<InstallAction>(packageStorage, _buildAction, fileSystem, shell, settings)),
+                    buildStorage, _fetchAction, substitution, impersonationAccount, fileSystem, shell, settings, log)),
+            _installAction(std::make_shared<InstallAction>(
+                    packageStorage, _buildAction, substitution, fileSystem, shell, settings)),
             _updateAction(std::make_shared<UpdateAction>(packageStorage, _buildAction, _installAction)),
             _statusAction(std::make_shared<StatusAction>(
                     _fetchAction, _buildAction, _installAction, _updateAction, log)) {

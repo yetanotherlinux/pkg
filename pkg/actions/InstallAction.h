@@ -20,6 +20,7 @@ namespace pkg::actions {
         InstallAction(
                 const std::shared_ptr<PackageStorage> &packageStorage,
                 const std::shared_ptr<BuildAction> &buildAction,
+                const Substitution &substitution,
                 const FileSystem &fileSystem,
                 const Shell &shell,
                 const Settings &settings);

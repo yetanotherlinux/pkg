@@ -3,6 +3,7 @@
 
 #include "pkg/actions/Action.h"
 
+#include "pkg/Substitution.h"
 #include "pkg/infrastructure/Shell.h"
 
 using pkg::infrastructure::Shell;
@@ -11,10 +12,15 @@ namespace pkg::actions {
     class CommandAction : public Action {
 
     private:
+        const Substitution _substitution;
         const Shell _shell;
 
     public:
-        CommandAction(const std::shared_ptr<Storage> &storage, bool checkVersion, const Shell &shell);
+        CommandAction(
+                const std::shared_ptr<Storage> &storage,
+                const Substitution &substitution,
+                const Shell &shell,
+                bool checkVersion);
 
     protected:
         void RunCommand(const std::string &command) const;

@@ -16,6 +16,9 @@ namespace pkg {
             BuildsFileName("builds.json"),
             SourcesFileName("sources.json"),
             LdCommand("ldconfig"),
-            LdCachePath("/etc/ld.so.cache") {
+            LdCachePath("/etc/ld.so.cache"),
+            Substitutions(
+                    {{"cores", "3"}}
+            ) {
     }
 }

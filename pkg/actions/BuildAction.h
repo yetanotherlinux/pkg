@@ -23,6 +23,7 @@ namespace pkg::actions {
         BuildAction(
                 const std::shared_ptr<BuildStorage> &buildStorage,
                 const std::shared_ptr<FetchAction> &fetchAction,
+                const Substitution &substitution,
                 const Account &account,
                 const FileSystem &fileSystem,
                 const Shell &shell,

@@ -1,7 +1,7 @@
 #ifndef PKG_SETTINGS_H
 #define PKG_SETTINGS_H
 
-#include <string>
+#include <map>
 
 namespace pkg {
     class Settings {
@@ -21,6 +21,7 @@ namespace pkg {
         const std::string_view SourcesFileName;
         const std::string_view LdCommand;
         const std::string_view LdCachePath;
+        const std::map<std::string, std::string> Substitutions;
 
         Settings();
     };

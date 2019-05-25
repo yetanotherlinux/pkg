@@ -5,10 +5,11 @@ namespace pkg::actions {
     InstallAction::InstallAction(
             const std::shared_ptr<PackageStorage> &packageStorage,
             const std::shared_ptr<BuildAction> &buildAction,
+            const Substitution &substitution,
             const FileSystem &fileSystem,
             const Shell &shell,
             const Settings &settings) :
-            CommandAction(packageStorage, false, shell),
+            CommandAction(packageStorage, substitution, shell, false),
             _buildAction(buildAction),
             _fileSystem(fileSystem),
             _settings(settings) {

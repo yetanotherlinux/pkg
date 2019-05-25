@@ -38,9 +38,11 @@ int main(int argc, char **argv) {
     std::shared_ptr<PackageStorage> packageStorage{std::make_shared<PackageStorage>(settings, fileSystem)};
     std::shared_ptr<HostStorage> hostStorage{std::make_shared<HostStorage>(settings, fileSystem)};
 
+    Substitution substitution{settings.Substitutions};
     Account account{GetImpersonationAccount(settings.ImpersonationAccount)};
     const ActionFactory actionFactory{
-            sourceStorage, buildStorage, packageStorage, account, fileSystem, webClient, shell, settings, log
+            sourceStorage, buildStorage, packageStorage, substitution, account, fileSystem, webClient, shell, settings,
+            log
     };
     const std::shared_ptr<IAction> action{actionFactory.CreateAction(args.GetAction())};
     if (!action) {
