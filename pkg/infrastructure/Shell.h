@@ -27,8 +27,6 @@ namespace pkg::infrastructure {
         static void Impersonate(const Account &account);
 
         static void Execute(const std::string &sh, const std::string &command);
-
-        static void PrintOutput(const Log &log, int pipesDescriptors[2]);
     };
 }
 

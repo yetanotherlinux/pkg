@@ -1,12 +1,8 @@
 #include "Shell.h"
 
-#include <cstring>
 #include <filesystem>
-#include <iomanip>
 #include <unistd.h>
 #include <wait.h>
-#include <sys/ioctl.h>
-#include <iostream>
 #include "pkg/Exception.h"
 
 namespace pkg::infrastructure {
@@ -24,18 +20,12 @@ namespace pkg::infrastructure {
             const std::string &command,
             const std::string &workingDirectory,
             const std::optional<Account> &account) const {
-        int pipesDescriptors[2];
-        pipe(pipesDescriptors);
-
         pid_t pid{fork()};
         if (pid < 0) {
             throw Exception("Fork failed");
         }
+
         if (pid == 0) {
-            dup2(pipesDescriptors[1], STDOUT_FILENO);
-            dup2(pipesDescriptors[1], STDERR_FILENO);
-            close(pipesDescriptors[0]);
-            close(pipesDescriptors[1]);
             if (!workingDirectory.empty()) {
                 std::filesystem::current_path(workingDirectory);
             }
@@ -45,7 +35,7 @@ namespace pkg::infrastructure {
             Execute(std::string(_settings.ShCommand), command);
             throw Exception("Unexpected call");
         }
-        PrintOutput(_log, pipesDescriptors);
+
         int status;
         if (waitpid(pid, &status, 0) == -1) {
             throw Exception("'" + workingDirectory + "$ " + command + "' error");
@@ -81,76 +71,5 @@ namespace pkg::infrastructure {
         if (!setuid(0)) {
             throw Exception("Impersonation failed: can set user id after impersonation");
         }
-    }
-
-    char *replace_char(char *str, char find, char replace) {
-        char *current_pos = strchr(str, find);
-        while (current_pos) {
-            *current_pos = replace;
-            current_pos = strchr(current_pos, find);
-        }
-        return str;
-    }
-
-    void Shell::PrintOutput(const Log &log, int pipesDescriptors[2]) {
-        close(pipesDescriptors[1]);
-
-        const char cr{'\r'};
-        const char eol{'\n'};
-        const char space{' '};
-        const int bufSize{512};
-        char buffer[bufSize + 1]{};
-        size_t lineLength{};
-
-        winsize ws{};
-        ioctl(STDOUT_FILENO, TIOCGWINSZ, &ws);
-        size_t maxLineLength{ws.ws_col};
-
-        bool isNewLined{};
-        while (ssize_t length{read(pipesDescriptors[0], buffer, bufSize)}) {
-            if (length < 0) {
-                throw std::exception();
-            }
-
-            bool endsWithNewLine{};
-            while (length > 1 && buffer[length - 1] == eol) {
-                endsWithNewLine = true;
-                --length;
-            }
-            buffer[length] = '\0';
-
-            char *nl{std::strrchr(buffer, eol)};
-
-            if (isNewLined || nl || (maxLineLength && lineLength + length >= maxLineLength)) {
-                log.Out() << cr << std::setfill(space) << std::setw(lineLength) << "" << cr;
-            }
-
-            replace_char(nl ? nl : buffer, '\t', ' ');
-
-            if (nl) {
-                if (static_cast<size_t>(buffer + length - nl) > maxLineLength) {
-                    nl = buffer + length - maxLineLength;
-                } else {
-                    ++nl;
-                }
-                lineLength = length - (nl - buffer);
-                log.Out() << nl;
-            } else {
-                if (isNewLined) {
-                    lineLength = 0;
-                }
-                lineLength += length;
-                if (!maxLineLength || lineLength < maxLineLength) {
-                    log.Out() << buffer;
-                } else {
-                    lineLength = maxLineLength;
-                    log.Out() << buffer + (length - lineLength);
-                }
-            }
-            log.Out() << std::flush;
-            isNewLined = endsWithNewLine;
-        }
-        log.Out() << cr << std::flush;
-        close(pipesDescriptors[0]);
     }
 }
