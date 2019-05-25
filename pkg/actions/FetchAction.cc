@@ -38,6 +38,7 @@ namespace pkg::actions {
 
         std::string extractPath{_fileSystem.CreatePath(_sourcesPath, ".content")};
         std::string contentPath{Extract(archivePath, extractPath)};
+        _fileSystem.Remove(archivePath);
 
         std::string destinationPath{GetPath(package)};
         _fileSystem.Remove(destinationPath);
