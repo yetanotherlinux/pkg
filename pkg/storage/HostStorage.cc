@@ -14,7 +14,8 @@ using json::JsonWriter;
 
 namespace pkg::storage {
 
-    HostStorage::HostStorage(const Settings &settings, const FileSystem &fileSystem) :
+    HostStorage::HostStorage(
+            const std::string &requiredPackageName, const Settings &settings, const FileSystem &fileSystem) :
             _filePath(fileSystem.CreatePath(std::string(settings.StoragePath), std::string(settings.HostFileName))),
             _fileSystem(fileSystem),
             _packages() {
@@ -27,7 +28,7 @@ namespace pkg::storage {
             }
         }
         if (_packages.empty()) {
-            _packages.emplace_back(settings.RequiredPackageName);
+            _packages.emplace_back(requiredPackageName);
         }
     }
 

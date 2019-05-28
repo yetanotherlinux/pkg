@@ -4,7 +4,8 @@
 
 namespace pkg {
 
-    Args::Args(int argc, char **argv, const Settings &settings) :
+    Args::Args(int argc, char **argv, std::string defaultAction) :
+            _defaultAction(std::move(defaultAction)),
             _action(),
             _packages(),
             _hasForceFlag() {
@@ -24,7 +25,7 @@ namespace pkg {
             }
         }
 
-        _action = argc == index ? settings.DefaultAction : argv[index];
+        _action = argc == index ? _defaultAction : argv[index];
         for (++index; index < argc; ++index) {
             _packages.emplace_back(argv[index]);
         }

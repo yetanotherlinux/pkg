@@ -11,6 +11,9 @@ using pkg::actions::ActionFactory;
 using pkg::storage::HostStorage;
 using pkg::storage::MetadataStorage;
 
+const std::string_view DefaultAction{"status"};
+const std::string_view RequiredPackageName{"@environment"};
+
 Account GetImpersonationAccount(const std::string_view &accountName) {
     passwd *account = getpwnam(std::string(accountName).c_str());
     if (!account) {
@@ -27,7 +30,7 @@ std::vector<std::string> GetPackages(const Args &args, const std::shared_ptr<Hos
 int main(int argc, char **argv) {
     const Log log;
     const Settings settings{};
-    const Args args{argc, argv, settings};
+    const Args args{argc, argv, std::string(DefaultAction)};
 
     const FileSystem fileSystem{};
     const WebClient webClient{};
@@ -36,7 +39,9 @@ int main(int argc, char **argv) {
     std::shared_ptr<SourceStorage> sourceStorage{std::make_shared<SourceStorage>(settings, fileSystem)};
     std::shared_ptr<BuildStorage> buildStorage{std::make_shared<BuildStorage>(settings, fileSystem)};
     std::shared_ptr<PackageStorage> packageStorage{std::make_shared<PackageStorage>(settings, fileSystem)};
-    std::shared_ptr<HostStorage> hostStorage{std::make_shared<HostStorage>(settings, fileSystem)};
+    std::shared_ptr<HostStorage> hostStorage{
+            std::make_shared<HostStorage>(std::string(RequiredPackageName), settings, fileSystem)
+    };
 
     Substitution substitution{settings.Substitutions};
     Account account{GetImpersonationAccount(settings.ImpersonationAccount)};

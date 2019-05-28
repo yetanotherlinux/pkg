@@ -8,8 +8,6 @@ namespace pkg {
 
     public:
         const std::string_view ShCommand;
-        const std::string_view DefaultAction;
-        const std::string_view RequiredPackageName;
         const std::string_view ImpersonationAccount;
         const std::string_view MetadataUrl;
         const std::string_view StoragePath;

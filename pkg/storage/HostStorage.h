@@ -18,7 +18,7 @@ namespace pkg::storage {
         std::vector<std::string> _packages;
 
     public:
-        HostStorage(const Settings &settings, const FileSystem &fileSystem);
+        HostStorage(const std::string &requiredPackageName, const Settings &settings, const FileSystem &fileSystem);
 
         std::vector<std::string> GetPackages() const;
 
