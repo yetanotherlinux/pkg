@@ -18,7 +18,7 @@ namespace pkg {
             LdCommand("ldconfig"),
             LdCachePath("/etc/ld.so.cache"),
             Substitutions(
-                    {{"cores", "3"}}
+                    {{"cores", "1"}}
             ) {
     }
 }
