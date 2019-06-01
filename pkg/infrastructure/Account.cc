@@ -3,7 +3,7 @@
 #include <unistd.h>
 #include "pkg/Exception.h"
 
-namespace pkg {
+namespace pkg::infrastructure {
 
     Account::Account(passwd *account) :
             _id(account->pw_uid),

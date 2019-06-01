@@ -1,10 +1,10 @@
-#ifndef PKG_ACCOUNT_H
-#define PKG_ACCOUNT_H
+#ifndef PKG_INFRASTRUCTURE_ACCOUNT_H
+#define PKG_INFRASTRUCTURE_ACCOUNT_H
 
 #include <pwd.h>
 #include <string>
 
-namespace pkg {
+namespace pkg::infrastructure {
     class Account {
 
     private:

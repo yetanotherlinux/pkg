@@ -2,7 +2,7 @@
 #define PKG_INFRASTRUCTURE_SHELL_H
 
 #include <optional>
-#include "pkg/Account.h"
+#include "pkg/infrastructure/Account.h"
 
 namespace pkg::infrastructure {
     class Shell {

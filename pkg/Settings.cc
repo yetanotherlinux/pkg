@@ -2,7 +2,7 @@
 
 namespace pkg {
 
-    Settings::Settings(const std::string &appPath, const FileSystem &fileSystem) :
+    Settings::Settings(const std::string &appPath, const std::string &arch, const FileSystem &fileSystem) :
             _sourcesPath("/usr/src"),
             _buildsPath("/var/tmp/pkg"),
             _sourcesFilePath(fileSystem.CreatePath(appPath, "sources.json")),
@@ -11,10 +11,10 @@ namespace pkg {
             _hostFilePath(fileSystem.CreatePath(appPath, "host.json")),
             _currentAccount(Account::Current()),
             _impersonationAccount("nobody"),
+            _metadataUrl("https://raw.githubusercontent.com/yetanotherlinux/packages/" + arch + "/"),
             _substitutions({{"cores", "1"}}),
             _ldCommand("ldconfig"),
-            _ldCachePath("/etc/ld.so.cache"),
-            MetadataUrl("https://raw.githubusercontent.com/yetanotherlinux/packages/master/") {
+            _ldCachePath("/etc/ld.so.cache") {
         fileSystem.CreateDirectory(appPath);
     }
 
@@ -40,6 +40,10 @@ namespace pkg {
 
     std::string Settings::GetHostFilePath() const {
         return _hostFilePath;
+    }
+
+    std::string Settings::GetMetadataUrl() const {
+        return _metadataUrl;
     }
 
     Account Settings::GetCurrentAccount() const {

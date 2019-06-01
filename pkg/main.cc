@@ -2,11 +2,13 @@
 #include "pkg/Exception.h"
 #include "pkg/PackageGraph.h"
 #include "pkg/actions/ActionFactory.h"
+#include "pkg/infrastructure/Kernel.h"
 #include "pkg/storage/HostStorage.h"
 #include "pkg/storage/MetadataStorage.h"
 
 using namespace pkg;
 using pkg::actions::ActionFactory;
+using pkg::infrastructure::Kernel;
 using pkg::storage::HostStorage;
 using pkg::storage::MetadataStorage;
 
@@ -23,8 +25,8 @@ int main(int argc, char **argv) {
     const Log log{};
     const FileSystem fileSystem{};
     const WebClient webClient{};
-    const Settings settings{std::string(AppPath), fileSystem};
     const Args args{argc, argv, std::string(DefaultAction)};
+    const Settings settings{std::string(AppPath), Kernel().GetArch(), fileSystem};
 
     auto metadataStorage{std::make_shared<MetadataStorage>(settings, webClient)};
     auto sourceStorage{std::make_shared<SourceStorage>(settings, fileSystem)};

@@ -1,6 +1,5 @@
 add_executable(pkg
         main
-        Account
         Args
         Exception
         Log
@@ -9,10 +8,6 @@ add_executable(pkg
         PackageMetadata
         Settings
         Substitution
-        infrastructure/Archive
-        infrastructure/FileSystem
-        infrastructure/Shell
-        infrastructure/WebClient
         actions/Action
         actions/ActionFactory
         actions/BuildAction
@@ -22,6 +17,12 @@ add_executable(pkg
         actions/InstallAction
         actions/StatusAction
         actions/UpdateAction
+        infrastructure/Account
+        infrastructure/Archive
+        infrastructure/FileSystem
+        infrastructure/Kernel
+        infrastructure/Shell
+        infrastructure/WebClient
         storage/BuildStorage
         storage/HostStorage
         storage/MetadataStorage

@@ -3,9 +3,10 @@
 
 #include <map>
 
-#include "pkg/Account.h"
+#include "pkg/infrastructure/Account.h"
 #include "pkg/infrastructure/FileSystem.h"
 
+using pkg::infrastructure::Account;
 using pkg::infrastructure::FileSystem;
 
 namespace pkg {
@@ -20,14 +21,13 @@ namespace pkg {
         const std::string _hostFilePath;
         const Account _currentAccount;
         const Account _impersonationAccount;
+        const std::string _metadataUrl;
         const std::map<std::string, std::string> _substitutions;
         const std::string _ldCommand;
         const std::string _ldCachePath;
 
     public:
-        const std::string_view MetadataUrl;
-
-        Settings(const std::string &appPath, const FileSystem &fileSystem);
+        Settings(const std::string &appPath, const std::string &arch, const FileSystem &fileSystem);
 
         std::string GetSourcesPath() const;
 
@@ -40,6 +40,8 @@ namespace pkg {
         std::string GetPackagesFilePath() const;
 
         std::string GetHostFilePath() const;
+
+        std::string GetMetadataUrl() const;
 
         Account GetCurrentAccount() const;
 

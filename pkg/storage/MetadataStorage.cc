@@ -12,7 +12,7 @@ using json::JsonString;
 namespace pkg::storage {
 
     MetadataStorage::MetadataStorage(const Settings &settings, const WebClient &webClient) :
-            _url(settings.MetadataUrl),
+            _url(settings.GetMetadataUrl()),
             _webClient(webClient) {
     }
 
