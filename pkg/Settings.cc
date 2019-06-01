@@ -5,7 +5,8 @@ namespace pkg {
     Settings::Settings() :
             _currentAccount(Account::Current()),
             _impersonationAccount("nobody"),
-            ShCommand("bash"),
+            _ldCommand("ldconfig"),
+            _ldCachePath("/etc/ld.so.cache"),
             MetadataUrl("https://raw.githubusercontent.com/yetanotherlinux/packages/master/"),
             StoragePath("/etc/pkg"),
             SourcesPath("/usr/src"),
@@ -14,8 +15,6 @@ namespace pkg {
             PackagesFileName("packages.json"),
             BuildsFileName("builds.json"),
             SourcesFileName("sources.json"),
-            LdCommand("ldconfig"),
-            LdCachePath("/etc/ld.so.cache"),
             Substitutions(
                     {{"cores", "1"}}
             ) {
@@ -27,5 +26,13 @@ namespace pkg {
 
     Account Settings::GetImpersonationAccount() const {
         return _impersonationAccount;
+    }
+
+    std::string Settings::GetLdCommand() const {
+        return _ldCommand;
+    }
+
+    std::string Settings::GetLdCachePath() const {
+        return _ldCachePath;
     }
 }

@@ -7,10 +7,9 @@ namespace pkg::actions {
             const std::shared_ptr<FetchAction> &fetchAction,
             const Substitution &substitution,
             const FileSystem &fileSystem,
-            const Shell &shell,
             const Settings &settings,
             const Log &log) :
-            CommandAction(buildStorage, substitution, shell, true),
+            CommandAction(buildStorage, substitution, true),
             _fetchAction(fetchAction),
             _buildPath(settings.BuildPath),
             _fileSystem(fileSystem),
@@ -37,8 +36,9 @@ namespace pkg::actions {
         _fileSystem.CreateDirectory(buildPath);
         _fileSystem.CreateLink(rootPath, _fetchAction->GetPath(package), "src");
         _fileSystem.SetOwner(buildPath, _settings.GetImpersonationAccount());
-        RunCommands(package.Config, buildPath, GetLogPath(package, "config"), _settings.GetImpersonationAccount());
-        RunCommands(package.Build, buildPath, GetLogPath(package, "build"), _settings.GetImpersonationAccount());
+        Shell shell{buildPath, _settings.GetImpersonationAccount()};
+        RunCommands(shell, package.Config, GetLogPath(package, "config"));
+        RunCommands(shell, package.Build, GetLogPath(package, "build"));
         _fileSystem.SetOwner(buildPath, _settings.GetCurrentAccount());
         PushToStorage(package);
     }

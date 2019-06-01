@@ -11,9 +11,10 @@ namespace pkg {
     private:
         const Account _currentAccount;
         const Account _impersonationAccount;
+        const std::string _ldCommand;
+        const std::string _ldCachePath;
 
     public:
-        const std::string_view ShCommand;
         const std::string_view MetadataUrl;
         const std::string_view StoragePath;
         const std::string_view SourcesPath;
@@ -22,8 +23,6 @@ namespace pkg {
         const std::string_view PackagesFileName;
         const std::string_view BuildsFileName;
         const std::string_view SourcesFileName;
-        const std::string_view LdCommand;
-        const std::string_view LdCachePath;
         const std::map<std::string, std::string> Substitutions;
 
         Settings();
@@ -31,6 +30,10 @@ namespace pkg {
         Account GetCurrentAccount() const;
 
         Account GetImpersonationAccount() const;
+
+        std::string GetLdCommand() const;
+
+        std::string GetLdCachePath() const;
     };
 }
 

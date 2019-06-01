@@ -8,62 +8,55 @@
 
 namespace pkg::infrastructure {
 
-    Shell::Shell(const pkg::Settings &settings, const Log &log) :
-            _settings(settings),
-            _log(log) {
+    Shell::Shell(const std::string &workingDirectory, const std::optional<Account> &account) :
+            _workingDirectory(workingDirectory),
+            _account(account) {
     }
 
-    void Shell::Run(const std::string &command) const {
-        Run(command, "", "", std::nullopt);
-    }
-
-    void Shell::Run(
-            const std::string &command,
-            const std::string &workingDirectory,
-            const std::string &logPath,
-            const std::optional<Account> &account) const {
+    void Shell::Run(const std::string &command, const std::string &logPath) const {
         pid_t pid{fork()};
         if (pid < 0) {
             throw Exception("Fork failed");
         }
 
         if (pid == 0) {
-            if (!workingDirectory.empty()) {
-                std::filesystem::current_path(workingDirectory);
-            }
             if (!logPath.empty()) {
                 SetOutputRedirection(logPath);
             }
-            if (account.has_value()) {
-                Impersonate(account.value());
+            if (_account.has_value() && _account.value() != Account::Current()) {
+                Impersonate(_account.value());
+            }
+            if (!_workingDirectory.empty()) {
+                std::filesystem::current_path(_workingDirectory);
             }
             printf("\n%s\n", "=====");
             printf("%s\n", command.c_str());
-            Execute(std::string(_settings.ShCommand), command);
+            Execute(command);
             throw Exception("Unexpected call");
         }
 
         int status;
         if (waitpid(pid, &status, 0) == -1) {
-            throw Exception("'" + workingDirectory + "$ " + command + "' error");
+            throw Exception("'" + _workingDirectory + "$ " + command + "' error");
         }
         if (!WIFEXITED(status)) {
-            throw Exception("'" + workingDirectory + "$ " + command + "' terminated abnormally");
+            throw Exception("'" + _workingDirectory + "$ " + command + "' terminated abnormally");
         }
         if (int exitCode = WEXITSTATUS(status)) {
-            throw Exception("'" + workingDirectory + "$ " + command + "' returns '" + std::to_string(exitCode) + "'");
+            throw Exception("'" + _workingDirectory + "$ " + command + "' returns '" + std::to_string(exitCode) + "'");
         }
     }
 
-    void Shell::Execute(const std::string &sh, const std::string &command) {
-        std::string shCommandArg{"-c"};
+    void Shell::Execute(const std::string &command) {
+        const char *shCommand{"sh"};
+        const char *shCommandArg{"-c"};
         const char *tokens[4]{
-                sh.c_str(),
-                shCommandArg.c_str(),
+                shCommand,
+                shCommandArg,
                 command.c_str(),
                 nullptr
         };
-        if (execvp(sh.c_str(), const_cast<char **>(tokens))) {
+        if (execvp(shCommand, const_cast<char **>(tokens))) {
             throw Exception("Invalid command: " + command);
         }
     }

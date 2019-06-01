@@ -22,7 +22,6 @@ namespace pkg::actions {
                 const std::shared_ptr<BuildAction> &buildAction,
                 const Substitution &substitution,
                 const FileSystem &fileSystem,
-                const Shell &shell,
                 const Settings &settings);
 
         std::string GetName() const override;

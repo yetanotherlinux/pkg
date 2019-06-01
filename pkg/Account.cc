@@ -17,6 +17,14 @@ namespace pkg {
             }()) {
     }
 
+    bool Account::operator==(const Account &o) const {
+        return _id == o._id;
+    }
+
+    bool Account::operator!=(const Account &o) const {
+        return !operator==(o);
+    }
+
     uint32_t Account::GetId() const {
         return _id;
     }

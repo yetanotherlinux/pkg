@@ -36,7 +36,6 @@ namespace pkg::actions {
                 const Substitution &substitution,
                 const FileSystem &fileSystem,
                 const WebClient &webClient,
-                const Shell &shell,
                 const Settings &settings,
                 const Log &log);
 

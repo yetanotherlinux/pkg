@@ -25,7 +25,6 @@ int main(int argc, char **argv) {
 
     const FileSystem fileSystem{};
     const WebClient webClient{};
-    const Shell shell{settings, log};
     std::shared_ptr<MetadataStorage> metadataStorage{std::make_shared<MetadataStorage>(settings, webClient)};
     std::shared_ptr<SourceStorage> sourceStorage{std::make_shared<SourceStorage>(settings, fileSystem)};
     std::shared_ptr<BuildStorage> buildStorage{std::make_shared<BuildStorage>(settings, fileSystem)};
@@ -36,8 +35,7 @@ int main(int argc, char **argv) {
 
     Substitution substitution{settings.Substitutions};
     const ActionFactory actionFactory{
-            sourceStorage, buildStorage, packageStorage, substitution, fileSystem, webClient, shell, settings,
-            log
+            sourceStorage, buildStorage, packageStorage, substitution, fileSystem, webClient, settings, log
     };
     const std::shared_ptr<IAction> action{actionFactory.CreateAction(args.GetAction())};
     if (!action) {

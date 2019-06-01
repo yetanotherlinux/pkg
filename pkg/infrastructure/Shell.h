@@ -3,33 +3,25 @@
 
 #include <optional>
 #include "pkg/Account.h"
-#include "pkg/Log.h"
-#include "pkg/Settings.h"
 
 namespace pkg::infrastructure {
     class Shell {
 
     private:
-        const Settings _settings;
-        const Log _log;
+        const std::string _workingDirectory;
+        const std::optional<Account> _account;
 
     public:
-        Shell(const Settings &settings, const Log &log);
+        Shell(const std::string &workingDirectory = "", const std::optional<Account> &account = std::nullopt);
 
-        void Run(const std::string &command) const;
-
-        void Run(
-                const std::string &command,
-                const std::string &workingDirectory,
-                const std::string &logPath,
-                const std::optional<Account> &account) const;
+        void Run(const std::string &command, const std::string &logPath = "") const;
 
     private:
         static void Impersonate(const Account &account);
 
         static void SetOutputRedirection(const std::string &path);
 
-        static void Execute(const std::string &sh, const std::string &command);
+        static void Execute(const std::string &command);
     };
 }
 

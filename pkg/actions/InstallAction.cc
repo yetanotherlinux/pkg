@@ -7,9 +7,8 @@ namespace pkg::actions {
             const std::shared_ptr<BuildAction> &buildAction,
             const Substitution &substitution,
             const FileSystem &fileSystem,
-            const Shell &shell,
             const Settings &settings) :
-            CommandAction(packageStorage, substitution, shell, false),
+            CommandAction(packageStorage, substitution, false),
             _buildAction(buildAction),
             _fileSystem(fileSystem),
             _settings(settings) {
@@ -27,13 +26,14 @@ namespace pkg::actions {
 
         std::string buildPath{_buildAction->GetPath(package)};
         std::string logPath{_buildAction->GetLogPath(package, "install")};
-        RunCommands(package.Install, buildPath, logPath);
+        Shell shell{buildPath};
+        RunCommands(shell, package.Install, logPath);
         PushToStorage(package);
         ResetLdCache();
     }
 
     void InstallAction::ResetLdCache() const {
-        _fileSystem.Remove(std::string(_settings.LdCachePath));
-        RunCommand(std::string(_settings.LdCommand));
+        _fileSystem.Remove(_settings.GetLdCachePath());
+        RunCommand(Shell(), _settings.GetLdCommand());
     }
 }

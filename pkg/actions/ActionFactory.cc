@@ -9,14 +9,13 @@ namespace pkg::actions {
             const Substitution &substitution,
             const FileSystem &fileSystem,
             const WebClient &webClient,
-            const Shell &shell,
             const Settings &settings,
             const Log &log) :
             _fetchAction(std::make_shared<FetchAction>(sourceStorage, fileSystem, webClient, settings, log)),
             _buildAction(std::make_shared<BuildAction>(
-                    buildStorage, _fetchAction, substitution, fileSystem, shell, settings, log)),
+                    buildStorage, _fetchAction, substitution, fileSystem, settings, log)),
             _installAction(std::make_shared<InstallAction>(
-                    packageStorage, _buildAction, substitution, fileSystem, shell, settings)),
+                    packageStorage, _buildAction, substitution, fileSystem, settings)),
             _updateAction(std::make_shared<UpdateAction>(packageStorage, _buildAction, _installAction)),
             _statusAction(std::make_shared<StatusAction>(
                     _fetchAction, _buildAction, _installAction, _updateAction, log)) {

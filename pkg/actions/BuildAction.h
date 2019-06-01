@@ -25,7 +25,6 @@ namespace pkg::actions {
                 const std::shared_ptr<FetchAction> &fetchAction,
                 const Substitution &substitution,
                 const FileSystem &fileSystem,
-                const Shell &shell,
                 const Settings &settings,
                 const Log &log);
 

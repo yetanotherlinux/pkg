@@ -13,29 +13,22 @@ namespace pkg::actions {
 
     private:
         const Substitution _substitution;
-        const Shell _shell;
 
     public:
         CommandAction(
                 const std::shared_ptr<Storage> &storage,
                 const Substitution &substitution,
-                const Shell &shell,
                 bool checkVersion);
 
     protected:
-        void RunCommand(const std::string &command) const;
+        void RunCommand(
+                const Shell &shell, const std::string &command) const;
 
         void RunCommand(
-                const std::string &command,
-                const std::string &path,
-                const std::string &logPath,
-                const std::optional<Account> &account = std::nullopt) const;
+                const Shell &shell, const std::string &command, const std::string &logPath) const;
 
         void RunCommands(
-                const std::vector<std::string> &commands,
-                const std::string &path,
-                const std::string &logPath,
-                const std::optional<Account> &account = std::nullopt) const;
+                const Shell &shell, const std::vector<std::string> &commands, const std::string &logPath) const;
     };
 }
 

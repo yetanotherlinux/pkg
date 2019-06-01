@@ -16,6 +16,10 @@ namespace pkg {
     public:
         Account(const std::string &accountName);
 
+        bool operator==(const Account &o) const;
+
+        bool operator!=(const Account &o) const;
+
         uint32_t GetId() const;
 
         uint32_t GetGroupId() const;

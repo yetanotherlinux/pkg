@@ -5,32 +5,24 @@ namespace pkg::actions {
     CommandAction::CommandAction(
             const std::shared_ptr<Storage> &storage,
             const Substitution &substitution,
-            const Shell &shell,
             bool checkVersion) :
             Action(storage, checkVersion),
-            _substitution(substitution),
-            _shell(shell) {
+            _substitution(substitution) {
     }
 
-    void CommandAction::RunCommand(const std::string &command) const {
-        RunCommand(command, "", "");
+    void CommandAction::RunCommand(const Shell &shell, const std::string &command) const {
+        shell.Run(command);
     }
 
     void CommandAction::RunCommand(
-            const std::string &command,
-            const std::string &path,
-            const std::string &logPath,
-            const std::optional<Account> &account) const {
-        _shell.Run(_substitution.Process(command), path, logPath, account);
+            const Shell &shell, const std::string &command, const std::string &logPath) const {
+        shell.Run(_substitution.Process(command), logPath);
     }
 
     void CommandAction::RunCommands(
-            const std::vector<std::string> &commands,
-            const std::string &path,
-            const std::string &logPath,
-            const std::optional<Account> &account) const {
+            const Shell &shell, const std::vector<std::string> &commands, const std::string &logPath) const {
         for (const std::string &command : commands) {
-            RunCommand(command, path, logPath, account);
+            RunCommand(shell, command, logPath);
         }
     }
 }
