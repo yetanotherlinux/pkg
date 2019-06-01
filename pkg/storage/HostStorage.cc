@@ -16,10 +16,9 @@ namespace pkg::storage {
 
     HostStorage::HostStorage(
             const std::string &requiredPackageName, const Settings &settings, const FileSystem &fileSystem) :
-            _filePath(fileSystem.CreatePath(std::string(settings.StoragePath), std::string(settings.HostFileName))),
+            _filePath(settings.GetHostFilePath()),
             _fileSystem(fileSystem),
             _packages() {
-        fileSystem.CreateDirectory(std::string(settings.StoragePath));
         Json json{GetJson(_fileSystem, _filePath)};
         if (std::shared_ptr<JsonArray> container{std::dynamic_pointer_cast<JsonArray>(json.GetRoot())}; container) {
             for (const std::shared_ptr<JsonNode> &node : container->GetItems()) {

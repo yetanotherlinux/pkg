@@ -15,6 +15,7 @@ namespace pkg {
         const std::string _sourcesFilePath;
         const std::string _buildsFilePath;
         const std::string _packagesFilePath;
+        const std::string _hostFilePath;
         const Account _currentAccount;
         const Account _impersonationAccount;
         const std::string _ldCommand;
@@ -22,10 +23,8 @@ namespace pkg {
 
     public:
         const std::string_view MetadataUrl;
-        const std::string_view StoragePath;
         const std::string_view SourcesPath;
         const std::string_view BuildPath;
-        const std::string_view HostFileName;
         const std::map<std::string, std::string> Substitutions;
 
         Settings(const std::string &appPath, const FileSystem &fileSystem);
@@ -35,6 +34,8 @@ namespace pkg {
         std::string GetBuildsFilePath() const;
 
         std::string GetPackagesFilePath() const;
+
+        std::string GetHostFilePath() const;
 
         Account GetCurrentAccount() const;
 
