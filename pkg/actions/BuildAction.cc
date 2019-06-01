@@ -11,7 +11,7 @@ namespace pkg::actions {
             const Log &log) :
             CommandAction(buildStorage, substitution, true),
             _fetchAction(fetchAction),
-            _buildPath(settings.BuildPath),
+            _buildPath(settings.GetBuildsPath()),
             _fileSystem(fileSystem),
             _settings(settings),
             _log(log) {

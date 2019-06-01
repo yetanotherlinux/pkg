@@ -3,21 +3,27 @@
 namespace pkg {
 
     Settings::Settings(const std::string &appPath, const FileSystem &fileSystem) :
+            _sourcesPath("/usr/src"),
+            _buildsPath("/var/tmp/pkg"),
             _sourcesFilePath(fileSystem.CreatePath(appPath, "sources.json")),
             _buildsFilePath(fileSystem.CreatePath(appPath, "builds.json")),
             _packagesFilePath(fileSystem.CreatePath(appPath, "packages.json")),
             _hostFilePath(fileSystem.CreatePath(appPath, "host.json")),
             _currentAccount(Account::Current()),
             _impersonationAccount("nobody"),
+            _substitutions({{"cores", "1"}}),
             _ldCommand("ldconfig"),
             _ldCachePath("/etc/ld.so.cache"),
-            MetadataUrl("https://raw.githubusercontent.com/yetanotherlinux/packages/master/"),
-            SourcesPath("/usr/src"),
-            BuildPath("/var/tmp/pkg"),
-            Substitutions(
-                    {{"cores", "1"}}
-            ) {
+            MetadataUrl("https://raw.githubusercontent.com/yetanotherlinux/packages/master/") {
         fileSystem.CreateDirectory(appPath);
+    }
+
+    std::string Settings::GetSourcesPath() const {
+        return _sourcesPath;
+    }
+
+    std::string Settings::GetBuildsPath() const {
+        return _buildsPath;
     }
 
     std::string Settings::GetSourcesFilePath() const {
@@ -50,5 +56,9 @@ namespace pkg {
 
     std::string Settings::GetLdCachePath() const {
         return _ldCachePath;
+    }
+
+    std::map<std::string, std::string> Settings::GetSubstitutions() const {
+        return _substitutions;
     }
 }

@@ -16,7 +16,7 @@ namespace pkg::actions {
             _fileSystem(fileSystem),
             _webClient(webClient),
             _log(log),
-            _sourcesPath(settings.SourcesPath) {
+            _sourcesPath(settings.GetSourcesPath()) {
         _fileSystem.CreateDirectory(_sourcesPath);
     }
 

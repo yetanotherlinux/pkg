@@ -26,14 +26,13 @@ int main(int argc, char **argv) {
     const Settings settings{std::string(AppPath), fileSystem};
     const Args args{argc, argv, std::string(DefaultAction)};
 
-
     auto metadataStorage{std::make_shared<MetadataStorage>(settings, webClient)};
     auto sourceStorage{std::make_shared<SourceStorage>(settings, fileSystem)};
     auto buildStorage{std::make_shared<BuildStorage>(settings, fileSystem)};
     auto packageStorage{std::make_shared<PackageStorage>(settings, fileSystem)};
     auto hostStorage{std::make_shared<HostStorage>(std::string(RequiredPackageName), settings, fileSystem)};
 
-    Substitution substitution{settings.Substitutions};
+    Substitution substitution{settings.GetSubstitutions()};
     const ActionFactory actionFactory{
             sourceStorage, buildStorage, packageStorage, substitution, fileSystem, webClient, settings, log
     };
