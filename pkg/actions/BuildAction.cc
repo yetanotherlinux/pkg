@@ -6,17 +6,16 @@ namespace pkg::actions {
             const std::shared_ptr<BuildStorage> &buildStorage,
             const std::shared_ptr<FetchAction> &fetchAction,
             const Substitution &substitution,
-            const Account &account,
             const FileSystem &fileSystem,
             const Shell &shell,
             const Settings &settings,
             const Log &log) :
             CommandAction(buildStorage, substitution, shell, true),
             _fetchAction(fetchAction),
-            _account(account),
+            _buildPath(settings.BuildPath),
             _fileSystem(fileSystem),
-            _log(log),
-            _buildPath(settings.BuildPath) {
+            _settings(settings),
+            _log(log) {
         _fileSystem.CreateDirectory(_buildPath);
     }
 
@@ -37,10 +36,10 @@ namespace pkg::actions {
         _fileSystem.Remove(rootPath);
         _fileSystem.CreateDirectory(buildPath);
         _fileSystem.CreateLink(rootPath, _fetchAction->GetPath(package), "src");
-        _fileSystem.SetOwner(buildPath, _account);
-        RunCommands(package.Config, buildPath, GetLogPath(package, "config"), _account);
-        RunCommands(package.Build, buildPath, GetLogPath(package, "build"), _account);
-        _fileSystem.SetOwner(buildPath, {0, 0});
+        _fileSystem.SetOwner(buildPath, _settings.GetImpersonationAccount());
+        RunCommands(package.Config, buildPath, GetLogPath(package, "config"), _settings.GetImpersonationAccount());
+        RunCommands(package.Build, buildPath, GetLogPath(package, "build"), _settings.GetImpersonationAccount());
+        _fileSystem.SetOwner(buildPath, _settings.GetCurrentAccount());
         PushToStorage(package);
     }
 

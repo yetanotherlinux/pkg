@@ -14,17 +14,16 @@ namespace pkg::actions {
 
     private:
         const std::shared_ptr<FetchAction> _fetchAction;
-        const Account _account;
-        const FileSystem _fileSystem;
-        const Log _log;
         const std::string _buildPath;
+        const FileSystem _fileSystem;
+        const Settings _settings;
+        const Log _log;
 
     public:
         BuildAction(
                 const std::shared_ptr<BuildStorage> &buildStorage,
                 const std::shared_ptr<FetchAction> &fetchAction,
                 const Substitution &substitution,
-                const Account &account,
                 const FileSystem &fileSystem,
                 const Shell &shell,
                 const Settings &settings,

@@ -1,15 +1,27 @@
 #ifndef PKG_ACCOUNT_H
 #define PKG_ACCOUNT_H
 
-#include <cstdint>
+#include <pwd.h>
+#include <string>
 
 namespace pkg {
-    struct Account {
+    class Account {
 
-        uint32_t Id;
-        uint32_t GroupId;
+    private:
+        const uint32_t _id;
+        const uint32_t _groupId;
 
-        Account(uint32_t id, uint32_t groupId);
+        Account(passwd *account);
+
+    public:
+        Account(const std::string &accountName);
+
+        uint32_t GetId() const;
+
+        uint32_t GetGroupId() const;
+
+        static Account Current();
+
     };
 }
 

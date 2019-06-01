@@ -69,10 +69,10 @@ namespace pkg::infrastructure {
     }
 
     void Shell::Impersonate(const Account &account) {
-        if (setgid(account.Id)) {
+        if (setgid(account.GetId())) {
             throw Exception("Impersonation failed: can't set group id");
         }
-        if (setuid(account.GroupId)) {
+        if (setuid(account.GetGroupId())) {
             throw Exception("Impersonation failed: can't set user id");
         }
         if (!setuid(0)) {

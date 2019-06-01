@@ -1,6 +1,5 @@
 #include "ActionFactory.h"
 
-
 namespace pkg::actions {
 
     ActionFactory::ActionFactory(
@@ -8,7 +7,6 @@ namespace pkg::actions {
             const std::shared_ptr<BuildStorage> &buildStorage,
             const std::shared_ptr<PackageStorage> &packageStorage,
             const Substitution &substitution,
-            const Account &impersonationAccount,
             const FileSystem &fileSystem,
             const WebClient &webClient,
             const Shell &shell,
@@ -16,7 +14,7 @@ namespace pkg::actions {
             const Log &log) :
             _fetchAction(std::make_shared<FetchAction>(sourceStorage, fileSystem, webClient, settings, log)),
             _buildAction(std::make_shared<BuildAction>(
-                    buildStorage, _fetchAction, substitution, impersonationAccount, fileSystem, shell, settings, log)),
+                    buildStorage, _fetchAction, substitution, fileSystem, shell, settings, log)),
             _installAction(std::make_shared<InstallAction>(
                     packageStorage, _buildAction, substitution, fileSystem, shell, settings)),
             _updateAction(std::make_shared<UpdateAction>(packageStorage, _buildAction, _installAction)),

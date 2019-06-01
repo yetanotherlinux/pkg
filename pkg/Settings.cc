@@ -3,8 +3,9 @@
 namespace pkg {
 
     Settings::Settings() :
+            _currentAccount(Account::Current()),
+            _impersonationAccount("nobody"),
             ShCommand("bash"),
-            ImpersonationAccount("nobody"),
             MetadataUrl("https://raw.githubusercontent.com/yetanotherlinux/packages/master/"),
             StoragePath("/etc/pkg"),
             SourcesPath("/usr/src"),
@@ -18,5 +19,13 @@ namespace pkg {
             Substitutions(
                     {{"cores", "1"}}
             ) {
+    }
+
+    Account Settings::GetCurrentAccount() const {
+        return _currentAccount;
+    }
+
+    Account Settings::GetImpersonationAccount() const {
+        return _impersonationAccount;
     }
 }

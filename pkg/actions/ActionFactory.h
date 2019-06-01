@@ -34,7 +34,6 @@ namespace pkg::actions {
                 const std::shared_ptr<BuildStorage> &buildStorage,
                 const std::shared_ptr<PackageStorage> &packageStorage,
                 const Substitution &substitution,
-                const Account &impersonationAccount,
                 const FileSystem &fileSystem,
                 const WebClient &webClient,
                 const Shell &shell,

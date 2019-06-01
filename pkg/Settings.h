@@ -3,12 +3,17 @@
 
 #include <map>
 
+#include "pkg/Account.h"
+
 namespace pkg {
     class Settings {
 
+    private:
+        const Account _currentAccount;
+        const Account _impersonationAccount;
+
     public:
         const std::string_view ShCommand;
-        const std::string_view ImpersonationAccount;
         const std::string_view MetadataUrl;
         const std::string_view StoragePath;
         const std::string_view SourcesPath;
@@ -22,6 +27,10 @@ namespace pkg {
         const std::map<std::string, std::string> Substitutions;
 
         Settings();
+
+        Account GetCurrentAccount() const;
+
+        Account GetImpersonationAccount() const;
     };
 }
 

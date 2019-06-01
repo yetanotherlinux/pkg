@@ -58,11 +58,11 @@ namespace pkg::infrastructure {
 
     void FileSystem::SetOwner(const std::string &path, const Account &account) const {
         for (const auto &entry : std::filesystem::recursive_directory_iterator(path)) {
-            if (chown(entry.path().c_str(), account.Id, account.GroupId)) {
+            if (chown(entry.path().c_str(), account.GetId(), account.GetGroupId())) {
                 throw Exception("Can't set working directory owner: " + entry.path().string());
             }
         }
-        if (chown(path.c_str(), account.Id, account.GroupId)) {
+        if (chown(path.c_str(), account.GetId(), account.GetGroupId())) {
             throw Exception("Can't set working directory owner: " + path);
         }
     }
