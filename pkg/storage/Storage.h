@@ -5,7 +5,6 @@
 #include <json/Json.h>
 #include <json/JsonObject.h>
 #include "pkg/Package.h"
-#include "pkg/Settings.h"
 #include "pkg/infrastructure/FileSystem.h"
 
 using json::Json;
@@ -21,7 +20,7 @@ namespace pkg::storage {
         std::vector<Package> _packages;
 
     public:
-        Storage(const Settings &settings, const std::string_view &fileName, const FileSystem &fileSystem);
+        Storage(const std::string &filePath, const FileSystem &fileSystem);
 
         std::optional<Package> FindPackage(const std::string &packageName) const;
 

@@ -4,11 +4,17 @@
 #include <map>
 
 #include "pkg/Account.h"
+#include "pkg/infrastructure/FileSystem.h"
+
+using pkg::infrastructure::FileSystem;
 
 namespace pkg {
     class Settings {
 
     private:
+        const std::string _sourcesFilePath;
+        const std::string _buildsFilePath;
+        const std::string _packagesFilePath;
         const Account _currentAccount;
         const Account _impersonationAccount;
         const std::string _ldCommand;
@@ -20,12 +26,15 @@ namespace pkg {
         const std::string_view SourcesPath;
         const std::string_view BuildPath;
         const std::string_view HostFileName;
-        const std::string_view PackagesFileName;
-        const std::string_view BuildsFileName;
-        const std::string_view SourcesFileName;
         const std::map<std::string, std::string> Substitutions;
 
-        Settings();
+        Settings(const std::string &appPath, const FileSystem &fileSystem);
+
+        std::string GetSourcesFilePath() const;
+
+        std::string GetBuildsFilePath() const;
+
+        std::string GetPackagesFilePath() const;
 
         Account GetCurrentAccount() const;
 

@@ -1,6 +1,7 @@
 #ifndef PKG_STORAGE_PACKAGE_STORAGE_H
 #define PKG_STORAGE_PACKAGE_STORAGE_H
 
+#include "pkg/Settings.h"
 #include "pkg/storage/Storage.h"
 
 namespace pkg::storage {

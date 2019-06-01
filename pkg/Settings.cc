@@ -2,7 +2,10 @@
 
 namespace pkg {
 
-    Settings::Settings() :
+    Settings::Settings(const std::string &appPath, const FileSystem &fileSystem) :
+            _sourcesFilePath(fileSystem.CreatePath(appPath, "sources.json")),
+            _buildsFilePath(fileSystem.CreatePath(appPath, "builds.json")),
+            _packagesFilePath(fileSystem.CreatePath(appPath, "packages.json")),
             _currentAccount(Account::Current()),
             _impersonationAccount("nobody"),
             _ldCommand("ldconfig"),
@@ -12,12 +15,22 @@ namespace pkg {
             SourcesPath("/usr/src"),
             BuildPath("/var/tmp/pkg"),
             HostFileName("host.json"),
-            PackagesFileName("packages.json"),
-            BuildsFileName("builds.json"),
-            SourcesFileName("sources.json"),
             Substitutions(
                     {{"cores", "1"}}
             ) {
+        fileSystem.CreateDirectory(appPath);
+    }
+
+    std::string Settings::GetSourcesFilePath() const {
+        return _sourcesFilePath;
+    }
+
+    std::string Settings::GetBuildsFilePath() const {
+        return _buildsFilePath;
+    }
+
+    std::string Settings::GetPackagesFilePath() const {
+        return _packagesFilePath;
     }
 
     Account Settings::GetCurrentAccount() const {

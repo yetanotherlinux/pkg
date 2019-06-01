@@ -11,11 +11,10 @@ using json::JsonWriter;
 
 namespace pkg::storage {
 
-    Storage::Storage(const Settings &settings, const std::string_view &fileName, const FileSystem &fileSystem) :
-            _filePath(fileSystem.CreatePath(std::string(settings.StoragePath), std::string(fileName))),
+    Storage::Storage(const std::string &filePath, const FileSystem &fileSystem) :
+            _filePath(filePath),
             _fileSystem(fileSystem),
             _packages() {
-        fileSystem.CreateDirectory(std::string(settings.StoragePath));
         Json json{GetJson(_fileSystem, _filePath)};
         std::shared_ptr<JsonObject> container{std::dynamic_pointer_cast<JsonObject>(json.GetRoot())};
         for (const std::shared_ptr<JsonProperty> &property : container->GetProperties()) {

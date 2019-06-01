@@ -10,6 +10,7 @@ using pkg::actions::ActionFactory;
 using pkg::storage::HostStorage;
 using pkg::storage::MetadataStorage;
 
+const std::string_view AppPath{"/etc/pkg"};
 const std::string_view DefaultAction{"status"};
 const std::string_view RequiredPackageName{"@environment"};
 
@@ -19,19 +20,18 @@ std::vector<std::string> GetPackages(const Args &args, const std::shared_ptr<Hos
 }
 
 int main(int argc, char **argv) {
-    const Log log;
-    const Settings settings{};
-    const Args args{argc, argv, std::string(DefaultAction)};
-
+    const Log log{};
     const FileSystem fileSystem{};
     const WebClient webClient{};
-    std::shared_ptr<MetadataStorage> metadataStorage{std::make_shared<MetadataStorage>(settings, webClient)};
-    std::shared_ptr<SourceStorage> sourceStorage{std::make_shared<SourceStorage>(settings, fileSystem)};
-    std::shared_ptr<BuildStorage> buildStorage{std::make_shared<BuildStorage>(settings, fileSystem)};
-    std::shared_ptr<PackageStorage> packageStorage{std::make_shared<PackageStorage>(settings, fileSystem)};
-    std::shared_ptr<HostStorage> hostStorage{
-            std::make_shared<HostStorage>(std::string(RequiredPackageName), settings, fileSystem)
-    };
+    const Settings settings{std::string(AppPath), fileSystem};
+    const Args args{argc, argv, std::string(DefaultAction)};
+
+
+    auto metadataStorage{std::make_shared<MetadataStorage>(settings, webClient)};
+    auto sourceStorage{std::make_shared<SourceStorage>(settings, fileSystem)};
+    auto buildStorage{std::make_shared<BuildStorage>(settings, fileSystem)};
+    auto packageStorage{std::make_shared<PackageStorage>(settings, fileSystem)};
+    auto hostStorage{std::make_shared<HostStorage>(std::string(RequiredPackageName), settings, fileSystem)};
 
     Substitution substitution{settings.Substitutions};
     const ActionFactory actionFactory{
