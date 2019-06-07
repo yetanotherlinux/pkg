@@ -7,11 +7,13 @@ namespace pkg::actions {
             const std::shared_ptr<BuildAction> &buildAction,
             const Substitution &substitution,
             const FileSystem &fileSystem,
-            const Settings &settings) :
+            const Settings &settings,
+            const Log &log) :
             CommandAction(packageStorage, substitution, false),
             _buildAction(buildAction),
             _fileSystem(fileSystem),
-            _settings(settings) {
+            _settings(settings),
+            _log(log) {
     }
 
     std::string InstallAction::GetName() const {
@@ -23,6 +25,8 @@ namespace pkg::actions {
             return;
         }
         _buildAction->Perform(package);
+
+        _log.Out() << "Installing " << package.Name << " " << package.Version << std::endl;
 
         std::string buildPath{_buildAction->GetPath(package)};
         std::string logPath{_buildAction->GetLogPath(package, "install")};

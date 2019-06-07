@@ -22,6 +22,8 @@ namespace pkg::infrastructure {
         if (pid == 0) {
             if (!logPath.empty()) {
                 SetOutputRedirection(logPath);
+                printf("\n%s\n", "=====");
+                printf("%s\n", command.c_str());
             }
             if (_account.has_value() && _account.value() != Account::Current()) {
                 Impersonate(_account.value());
@@ -29,8 +31,6 @@ namespace pkg::infrastructure {
             if (!_workingDirectory.empty()) {
                 std::filesystem::current_path(_workingDirectory);
             }
-            printf("\n%s\n", "=====");
-            printf("%s\n", command.c_str());
             Execute(command);
             throw Exception("Unexpected call");
         }

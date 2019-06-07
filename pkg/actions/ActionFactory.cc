@@ -15,7 +15,7 @@ namespace pkg::actions {
             _buildAction(std::make_shared<BuildAction>(
                     buildStorage, _fetchAction, substitution, fileSystem, settings, log)),
             _installAction(std::make_shared<InstallAction>(
-                    packageStorage, _buildAction, substitution, fileSystem, settings)),
+                    packageStorage, _buildAction, substitution, fileSystem, settings, log)),
             _updateAction(std::make_shared<UpdateAction>(packageStorage, _buildAction, _installAction)),
             _statusAction(std::make_shared<StatusAction>(
                     _fetchAction, _buildAction, _installAction, _updateAction, log)) {
