@@ -63,12 +63,5 @@ int main(int argc, char **argv) {
         action->Perform(package, false);
     }
 
-    if (args.HasForceFlag()) {
-        for (const std::string &packageName : packageNames) {
-            PackageMetadata package{metadataStorage->GetPackageMetadata(packageName)};
-            action->Perform(package, true);
-        }
-    }
-
     return EXIT_SUCCESS;
 }
