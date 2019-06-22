@@ -14,7 +14,7 @@ using pkg::storage::MetadataStorage;
 
 const std::string_view AppPath{"/etc/pkg"};
 const std::string_view DefaultAction{"status"};
-const std::string_view RequiredPackageName{"@environment"};
+const std::string_view RequiredPackageName{"@core"};
 
 std::vector<std::string> GetPackages(const Args &args, const std::shared_ptr<HostStorage> &hostStorage) {
     std::vector<std::string> packageNames{args.GetPackages()};
@@ -60,7 +60,7 @@ int main(int argc, char **argv) {
     }
     while (!packageGraph.IsEmpty()) {
         PackageMetadata package{packageGraph.ExtractLeaf()};
-        action->Perform(package, false);
+        action->Perform(package);
     }
 
     return EXIT_SUCCESS;

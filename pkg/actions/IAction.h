@@ -13,7 +13,7 @@ namespace pkg::actions {
 
         virtual bool ShouldBePerformed(const Package &package) const = 0;
 
-        virtual void Perform(const PackageMetadata &package, bool isForced) const = 0;
+        virtual void Perform(const PackageMetadata &package) const = 0;
     };
 }
 

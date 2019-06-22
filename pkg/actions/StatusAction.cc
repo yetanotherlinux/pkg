@@ -29,12 +29,12 @@ namespace pkg::actions {
         return _installAction->ShouldBePerformed(package) || _updateAction->ShouldBePerformed(package);
     }
 
-    void StatusAction::Perform(const PackageMetadata &package, bool isForced) const {
-        if (!isForced && !ShouldBePerformed(package)) {
+    void StatusAction::Perform(const PackageMetadata &package) const {
+        if (!ShouldBePerformed(package)) {
             return;
         }
         _log.Out() << std::left << std::setfill('.') <<
-                   std::setw(15) << package.Name + " " <<
+                   std::setw(25) << package.Name + " " <<
 
                    std::setw(_fetchActionName.size()) << (
                            _fetchAction->ShouldBePerformed(package) ? _fetchActionName : "") <<

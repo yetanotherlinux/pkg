@@ -19,10 +19,6 @@ namespace pkg::actions {
 
         bool ShouldBePerformed(const Package &package) const override;
 
-        virtual void Perform(const PackageMetadata &package) const = 0;
-
-        void Perform(const PackageMetadata &package, bool isForced) const override;
-
     protected:
         void PushToStorage(const Package &package) const;
 
